@@ -1,4 +1,6 @@
 /.cache
-*.out
+push_swap
+p_test
+checker_linux
 *.json
 *.o
