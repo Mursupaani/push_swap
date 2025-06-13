@@ -37,30 +37,3 @@ void	push_top_to_other_stack(t_node **from_stack, t_node **to_stack)
 	temp = remove_top_element(from_stack);
 	add_node_back(to_stack, temp);
 }
-// void	push_top_to_other_stack(t_node **from_stack, t_node **to_stack)
-// {
-// 	t_node	*temp;
-// 	t_node	*temp2;
-//
-// 	if (!*from_stack || !from_stack || !to_stack)
-// 		return ;
-// 	temp = *from_stack;
-// 	if ((*from_stack)->next)
-// 	{
-// 		(*from_stack)->next->previous = NULL;
-// 		*from_stack = (*from_stack)->next;
-// 	}
-// 	else
-// 		*from_stack = NULL;
-// 	if (*to_stack)
-// 	{
-// 		temp2 = *to_stack;
-// 		*to_stack = temp;
-// 		(*to_stack)->next = temp2;
-// 	}
-// 	else
-// 	{
-// 		*to_stack = temp;
-// 		(*to_stack)->next = NULL;
-// 	}
-// }

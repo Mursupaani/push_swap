@@ -39,10 +39,13 @@ int	main(int argc, char *argv[])
 	print_stack(stack_a);
 	ft_printf("Stack a rev:\t ");
 	print_reverse_stack(stack_a);
-	ft_printf("Stack b:\t \n");
+	ft_printf("Stack b:\t ");
 	print_stack(stack_b);
-	ft_printf("Stack b rev:\t \n");
+	ft_printf("Stack b rev:\t ");
 	print_reverse_stack(stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
 	push_top_to_other_stack(&stack_a, &stack_b);
 	push_top_to_other_stack(&stack_a, &stack_b);
 	push_top_to_other_stack(&stack_a, &stack_b);
@@ -99,21 +102,4 @@ static bool	parse_input_args(int argc, char *argv[], t_node **stack_a)
 			return (false);
 	}
 	return (true);
-}
-
-//FIXME: Remove when done testing
-void	print_reverse_stack(t_node *stack)
-{
-	t_node	*last;
-
-	last = find_last_node(stack);
-	while (last)
-	{
-		ft_printf("%d", last->value);
-		if (last->previous)
-			ft_printf(" ");
-		else
-			ft_printf("\n");
-		last = last->previous;
-	}
 }

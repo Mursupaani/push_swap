@@ -27,10 +27,11 @@ t_node	*create_new_node(int value);
 t_node	*find_last_node(t_node *head);
 t_node	*add_node_back(t_node **head, t_node *node_to_add);
 t_node	*add_node_front(t_node **head, t_node *node_to_add);
-void	print_stack(t_node *head);
+void	print_stack(t_node *stack);
 void	swap_top_two_elements(t_node **stack);
 void	push_top_to_other_stack(t_node **from_stack, t_node **to_stack);
 t_node	*remove_top_element(t_node **stack);
 t_node	*remove_bottom_element(t_node *stack);
+void	print_reverse_stack(t_node *stack);
 
 #endif

@@ -77,5 +77,3 @@ t_node	*add_node_front(t_node **head, t_node *node_to_add)
 		return (node_to_add);
 	}
 }
-
-

@@ -19,7 +19,7 @@ SRCS 		= main.c \
 			  push_swap.c \
 			  linked_list.c \
 			  linked_list_2.c \
-			  push_swap_utils.c \
+			  printing.c \
 			  push_and_swap.c \
 			  rotate.c
 OBJS		= $(SRCS:%.c=%.o)

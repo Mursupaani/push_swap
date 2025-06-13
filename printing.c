@@ -12,18 +12,41 @@
 
 #include "push_swap.h"
 
-void	print_stack(t_node *head)
+void	print_stack(t_node *stack)
 {
-	if (head)
+	if (!stack)
 	{
-		while (head)
-		{
-			ft_printf("%d", head->value);
-			if (head->next)
-				ft_printf(" ");
-			else
-				ft_printf("\n");
-			head = head->next;
-		}
+		ft_printf("Empty\n");
+		return;
+	}
+	while (stack)
+	{
+		ft_printf("%d", stack->value);
+		if (stack->next)
+			ft_printf(" ");
+		else
+			ft_printf("\n");
+		stack = stack->next;
+	}
+}
+
+void	print_reverse_stack(t_node *stack)
+{
+	t_node	*last;
+
+	if (!stack)
+	{
+		ft_printf("Empty\n");
+		return;
+	}
+	last = find_last_node(stack);
+	while (last)
+	{
+		ft_printf("%d", last->value);
+		if (last->previous)
+			ft_printf(" ");
+		else
+			ft_printf("\n");
+		last = last->previous;
 	}
 }
