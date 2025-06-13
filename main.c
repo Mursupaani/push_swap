@@ -6,16 +6,17 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 13:32:15 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/13 11:59:45 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/13 20:57:58 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
 
 static bool	arg_only_digits(char *arg);
 static bool	pre_parse_input_args(int argc, char *argv[]);
 static bool	parse_input_args(int argc, char *argv[], t_node **stack_a);
+//FIXME: Remove when done testing
+void		print_reverse_stack(t_node *stack);
 
 int	main(int argc, char *argv[])
 {
@@ -34,7 +35,27 @@ int	main(int argc, char *argv[])
 		ft_printf("There was an error parsing arguments.\n");
 		return (1);
 	}
+	ft_printf("Stack a:\t ");
 	print_stack(stack_a);
+	ft_printf("Stack a rev:\t ");
+	print_reverse_stack(stack_a);
+	ft_printf("Stack b:\t \n");
+	print_stack(stack_b);
+	ft_printf("Stack b rev:\t \n");
+	print_reverse_stack(stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	push_top_to_other_stack(&stack_a, &stack_b);
+	// swap_top_two_elements(&stack_a);
+	ft_printf("Stack a:\t ");
+	print_stack(stack_a);
+	ft_printf("Stack a rev:\t ");
+	print_reverse_stack(stack_a);
+	ft_printf("Stack b:\t ");
+	print_stack(stack_b);
+	ft_printf("Stack b rev:\t ");
+	print_reverse_stack(stack_b);
 	return (0);
 }
 
@@ -78,4 +99,21 @@ static bool	parse_input_args(int argc, char *argv[], t_node **stack_a)
 			return (false);
 	}
 	return (true);
+}
+
+//FIXME: Remove when done testing
+void	print_reverse_stack(t_node *stack)
+{
+	t_node	*last;
+
+	last = find_last_node(stack);
+	while (last)
+	{
+		ft_printf("%d", last->value);
+		if (last->previous)
+			ft_printf(" ");
+		else
+			ft_printf("\n");
+		last = last->previous;
+	}
 }

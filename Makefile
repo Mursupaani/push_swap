@@ -17,7 +17,11 @@ TEST		= p_test
 LIBFT		= ./libft/libft.a
 SRCS 		= main.c \
 			  push_swap.c \
-			  linked_list.c
+			  linked_list.c \
+			  linked_list_2.c \
+			  push_swap_utils.c \
+			  push_and_swap.c \
+			  rotate.c
 OBJS		= $(SRCS:%.c=%.o)
 HEADER		= push_swap.h
 C_FLAGS		= -Wall -Wextra -Werror -g
