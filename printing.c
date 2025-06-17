@@ -30,7 +30,7 @@ void	print_stack(t_node *stack)
 	}
 }
 
-void	print_reverse_stack(t_node *stack)
+void	print_stack_reverse(t_node *stack)
 {
 	t_node	*last;
 

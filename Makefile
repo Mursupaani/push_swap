@@ -16,6 +16,7 @@ TEST		= p_test
 #FIXME: Remove test rule
 LIBFT		= ./libft/libft.a
 SRCS 		= main.c \
+			  parsing.c \
 			  push_swap.c \
 			  linked_list.c \
 			  linked_list_2.c \
