@@ -23,6 +23,8 @@ typedef struct s_node
 	struct s_node	*previous;
 }	t_node;
 
+void	print_detailed_stacks(t_node *stack_a, t_node *stack_b);
+void	push_swap(t_node **stack_a, t_node **stack_b, char **args, bool dynarg);
 bool	pre_parse_input_args(char **args);
 bool	arg_only_digits(char *arg);
 bool	parse_input_args(char **args, t_node **stack_a);
@@ -42,6 +44,8 @@ void	rotate_stack_reverse(t_node **stack);
 void	rotate_both_stacks(t_node **stack_a, t_node **stack_b);
 void	rotate_both_stacks_reverse(t_node **stack_a, t_node **stack_b);
 bool	is_stack_sorted(t_node *stack);
-void	print_error_and_exit(t_node *stack_a, t_node *stack_b, char **args);
+bool	value_is_unique(int value, t_node *stack);
+void	free_memory(t_node **stack_a, t_node **stack_b, char **args, bool dynarg);
+void	error_exit(t_node **stack_a, t_node **stack_b, char **args, bool dynarg);
 
 #endif

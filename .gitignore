@@ -1,6 +1,6 @@
 /.cache
 push_swap
 p_test
-checker_linux
+checker*
 *.json
 *.o

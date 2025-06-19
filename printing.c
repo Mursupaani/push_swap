@@ -50,3 +50,17 @@ void	print_stack_reverse(t_node *stack)
 		last = last->previous;
 	}
 }
+
+void	print_detailed_stacks(t_node *stack_a, t_node *stack_b)
+{
+	ft_printf("Stack a:\t ");
+	print_stack(stack_a);
+	ft_printf("Stack a rev:\t ");
+	print_stack_reverse(stack_a);
+	ft_printf("Stack b:\t ");
+	print_stack(stack_b);
+	ft_printf("Stack b rev:\t ");
+	print_stack_reverse(stack_b);
+	ft_printf("Is stack_a sorted: %d\n", is_stack_sorted(stack_a));
+	ft_printf("Is stack_b sorted: %d\n", is_stack_sorted(stack_b));
+}

@@ -11,9 +11,6 @@
 # **************************************************************************** #
 
 NAME		= push_swap
-#FIXME: Remove test rule
-TEST		= p_test
-#FIXME: Remove test rule
 LIBFT		= ./libft/libft.a
 SRCS 		= main.c \
 			  parsing.c \
@@ -22,23 +19,15 @@ SRCS 		= main.c \
 			  linked_list_2.c \
 			  printing.c \
 			  push_and_swap.c \
-			  rotate.c
+			  rotate.c \
+			  memory_and_error.c
 OBJS		= $(SRCS:%.c=%.o)
 HEADER		= push_swap.h
-C_FLAGS		= -Wall -Wextra -Werror -g
+C_FLAGS		= -Wall -Wextra -Werror -g -gdwarf-4
 
-#FIXME: REMOVE THE CLEAN FROM ALL
-all: $(NAME) clean
-#FIXME: REMOVE THE CLEAN FROM ALL
+all: $(NAME)
 
-#FIXME: Remove test rule
-test:
-	rm -rf $(TEST)
-	make $(TEST)
-
-$(TEST): $(LIBFT)
-	cc *.c -g $(LIBFT) -o $(TEST)
-#FIXME: Remove test rule
+bin: all clean
 
 $(NAME): $(OBJS) $(LIBFT)
 	cc $(C_FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
@@ -53,9 +42,8 @@ clean:
 	rm -rf $(OBJS)
 	$(MAKE) -C libft clean
 
-#FIXME: Remove test rule
 fclean: clean
-	rm -rf $(NAME) compile_commands.json $(TEST)
+	rm -rf $(NAME) compile_commands.json
 	$(MAKE) -C libft fclean
 
 re: fclean all

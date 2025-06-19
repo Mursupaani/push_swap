@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+void	push_swap(t_node **stack_a, t_node **stack_b, char **args, bool dynarg)
+{
+	if (!pre_parse_input_args(args) || !parse_input_args(args, stack_a))
+		error_exit(stack_a, stack_b, args, dynarg);
+	if (is_stack_sorted(*stack_a))
+		return ;
+}
+
 bool	is_stack_sorted(t_node *stack)
 {
 	t_node	*temp;
@@ -26,32 +34,4 @@ bool	is_stack_sorted(t_node *stack)
 		temp = temp->next;
 	}
 	return(true);
-}
-
-void	print_error_and_exit(t_node *stack_a, t_node *stack_b, char **args)
-{
-	t_node	*temp;
-	int		i;
-
-	while (stack_a)
-	{
-		temp = stack_a->next;
-		free(stack_a);
-		stack_a = temp;
-	}
-	while (stack_b)
-	{
-		temp = stack_b->next;
-		free(stack_b);
-		stack_b = temp;
-	}
-	if (args)
-	{
-		i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-	}
-	ft_putstr_fd("Error\n", 2);
-	exit(EXIT_FAILURE);
 }
