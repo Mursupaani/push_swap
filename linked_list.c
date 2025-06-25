@@ -6,7 +6,7 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 11:16:14 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/13 16:15:55 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:51:02 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_node	*add_node_front(t_node **head, t_node *node_to_add)
 	{
 		(*head)->previous = node_to_add;
 		node_to_add->next = *head;
+		*head = node_to_add;
 		return (node_to_add);
 	}
 }

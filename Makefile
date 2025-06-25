@@ -10,20 +10,21 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= push_swap
-LIBFT		= ./libft/libft.a
-SRCS 		= main.c \
-			  parsing.c \
-			  push_swap.c \
-			  linked_list.c \
-			  linked_list_2.c \
-			  printing.c \
-			  push_and_swap.c \
-			  rotate.c \
-			  memory_and_error.c
-OBJS		= $(SRCS:%.c=%.o)
-HEADER		= push_swap.h
-C_FLAGS		= -Wall -Wextra -Werror -g -gdwarf-4
+NAME	= push_swap
+LIBFT	= ./libft/libft.a
+SRCS 	= main.c \
+		  parsing.c \
+		  push_swap.c \
+		  linked_list.c \
+		  linked_list_2.c \
+		  printing.c \
+		  push_and_swap.c \
+		  rotate.c \
+		  memory_and_error.c \
+		  sorting.c
+OBJS	= $(SRCS:%.c=%.o)
+HEADER	= push_swap.h
+C_FLAGS	= -Wall -Wextra -Werror -g -gdwarf-4
 
 all: $(NAME)
 
