@@ -28,7 +28,7 @@ BONUS		= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 			  ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 BONUS_OBJS	= $(BONUS:%.c=%.o)
 CC			= cc
-C_FLAGS		= -Wall -Wextra -Werror -c -I.
+C_FLAGS		= -Wall -Wextra -Werror -c -g -I.
 AR			= ar
 AR_FLAGS	= -rcs
 

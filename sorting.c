@@ -6,56 +6,73 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 12:11:36 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/23 17:57:36 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:38:27 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	*find_min_and_max_values(t_node *stack);
 void	sort_stack(t_node **stack_a, t_node **stack_b)
 {
-	int	operation;
+	int		operation;
+	bool	stack_a_sorted;
 
-	if (!(*stack_b) && is_stack_sorted(*stack_a))
+	stack_a_sorted = is_stack_sorted(*stack_a);
+	if (!(*stack_b) && stack_a_sorted)
 		return ;
-	if (!(*stack_a)->next->next || !(*stack_a)->next->next->next)
+	if ((!(*stack_a)->next->next || !(*stack_a)->next->next->next) && !stack_a_sorted)
 		sort_max_three(stack_a);
 	else
 	{
-		operation = choose_operation(stack_a, stack_b);
+		operation = choose_operation(stack_a, stack_b, stack_a_sorted);
 		run_operation(stack_a, stack_b, operation);
 	}
 	return (sort_stack(stack_a, stack_b));
 }
 
-int	choose_operation(t_node **stack_a, t_node **stack_b)
+int	choose_operation(t_node **stack_a, t_node **stack_b, bool stack_a_sorted)
 {
-	int	*stack_b_min;
+	static int	*stack_b_min_max;
+	int	operation;
 
-	if (!(*stack_b) || !(*stack_b)->next)
-		return (PA);
-	stack_b_min = find_min_and_max_values(*stack_b);
-	return (RR);
+	if ((!(*stack_b) || !(*stack_b)->next) && !stack_a_sorted)
+		operation = PB;
+	else if (*stack_b && is_stack_reverse_sorted(*stack_b)
+		&& stack_a_sorted)
+		operation = PA;
+	else if (!stack_a_sorted && !*stack_b && is_stack_sorted((*stack_a)->next))
+		operation = RA;
+	else
+		operation = count_best_operation(*stack_a, *stack_b, stack_b_min_max);
+	if (operation == PB)
+		stack_b_min_max = store_stack_min_and_max(*stack_a);
+	return (operation);
 }
 
-int	*find_min_and_max_values(t_node *stack)
+int	count_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[])
 {
-	static int		min_max[2];
-	t_node	*temp;
+	int	min_operations;
+	int	temp_min_operations;
+	int	value_from_head;
+	int	value_from_tail;
 
-	min_max[0] = stack->value;
-	min_max[1] = stack->value;
-	temp = stack;
-	while (temp)
+	min_operations = 0;
+	temp_min_operations = 0;
+	while (stack_a)
 	{
-		if (temp->value < min_max[0])
-			min_max[0] = temp->value;
-		if (temp->value > min_max[1])
-			min_max[1] = temp->value;
-		temp = temp->next;
+		if (stack_a->value < b_min_max[MIN])
+		{
+			value_from_head = find_max_value_moves_from_head(stack_b, b_min_max[MAX]);
+			value_from_tail = find_max_value_moves_from_tail(stack_b, b_min_max[MAX]);
+			if (value_from_head < value_from_tail)
+				temp_min_operations = value_from_head;
+			else
+				temp_min_operations = value_from_tail;
+			if (!min_operations)
+				min_operations = temp_min_operations;
+		}
 	}
-	return (min_max);
+	return (min_operations);
 }
 
 void	sort_max_three(t_node **stack)

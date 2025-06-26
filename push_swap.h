@@ -6,7 +6,7 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 13:25:54 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/23 17:50:17 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:37:07 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ typedef struct s_node
 	struct s_node	*previous;
 }	t_node;
 
+enum	Value_and_position
+{
+	VAL,
+	POS
+}	;
+
+enum	Min_and_max
+{
+	MIN,
+	MAX
+}	;
+
 enum	Operations
 {
 	SA,
@@ -37,6 +49,9 @@ enum	Operations
 	RRB,
 	RRR
 }	;
+
+// FIXME: No need for this?
+int		*find_min_and_max_values(t_node *stack);
 
 void	print_detailed_stacks(t_node *stack_a, t_node *stack_b);
 void	push_swap(t_node **stack_a, t_node **stack_b, char **args, bool dynarg);
@@ -66,6 +81,12 @@ void	error_exit(t_node **stack_a, t_node **stack_b, char **args, bool dynarg);
 void	run_operation(t_node **stack_a, t_node **stack_b, int operation);
 void	sort_stack(t_node **stack_a, t_node **stack_b);
 void	sort_max_three(t_node **stack);
-int		choose_operation(t_node **stack_a, t_node **stack_b);
+int		choose_operation(t_node **stack_a, t_node **stack_b, bool stack_a_sorted);
+int		*store_stack_min_and_max(t_node *stack);
+int		count_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[]);
+int		*find_smaller_value_from_head(t_node *stack, int value);
+int		*find_smaller_value_from_tail(t_node *stack, int value);
+int		find_max_value_moves_from_head(t_node *stack, int max_value_in_stack);
+int		find_max_value_moves_from_tail(t_node *stack, int max_value_in_stack);
 
 #endif

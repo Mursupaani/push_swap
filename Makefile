@@ -21,7 +21,8 @@ SRCS 	= main.c \
 		  push_and_swap.c \
 		  rotate.c \
 		  memory_and_error.c \
-		  sorting.c
+		  sorting.c \
+		  find_smaller_and_max_values.c
 OBJS	= $(SRCS:%.c=%.o)
 HEADER	= push_swap.h
 C_FLAGS	= -Wall -Wextra -Werror -g -gdwarf-4
