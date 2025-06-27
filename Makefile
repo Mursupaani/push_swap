@@ -25,7 +25,7 @@ SRCS 	= main.c \
 		  find_smaller_and_max_values.c
 OBJS	= $(SRCS:%.c=%.o)
 HEADER	= push_swap.h
-C_FLAGS	= -Wall -Wextra -Werror -g -gdwarf-4
+C_FLAGS	= -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

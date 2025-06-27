@@ -15,6 +15,7 @@
 # include "libft/libft.h"
 # include <stdlib.h>
 # include <stdbool.h>
+# include <limits.h>
 
 typedef struct s_node
 {
@@ -22,6 +23,14 @@ typedef struct s_node
 	struct s_node	*next;
 	struct s_node	*previous;
 }	t_node;
+
+typedef struct s_structs
+{
+	t_node	*stack_a;
+	t_node	*stack_b;
+	int		stack_a_len;
+	int		stack_b_len;
+}	t_stucts;
 
 enum	Value_and_position
 {
@@ -33,6 +42,20 @@ enum	Min_and_max
 {
 	MIN,
 	MAX
+}	;
+
+enum	Operation_to_run_and_times_to_run
+{
+	OPERATION,
+	TIMES_TO_RUN
+}	;
+
+enum	Moves_from_head_and_moves_from_tail
+{
+	HEAD_OPS,
+	HEAD_NUM_OF_OPS,
+	TAIL_OPS,
+	TAIL_NUM_OF_OPS
 }	;
 
 enum	Operations
@@ -83,10 +106,11 @@ void	sort_stack(t_node **stack_a, t_node **stack_b);
 void	sort_max_three(t_node **stack);
 int		choose_operation(t_node **stack_a, t_node **stack_b, bool stack_a_sorted);
 int		*store_stack_min_and_max(t_node *stack);
-int		count_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[]);
+int		find_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[]);
 int		*find_smaller_value_from_head(t_node *stack, int value);
 int		*find_smaller_value_from_tail(t_node *stack, int value);
 int		find_max_value_moves_from_head(t_node *stack, int max_value_in_stack);
 int		find_max_value_moves_from_tail(t_node *stack, int max_value_in_stack);
+int		*count_best_operation_for_new_min(t_node *stack_a, t_node *stack_b, int b_min_max[], int op[]);
 
 #endif

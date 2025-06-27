@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <climits>
 
 void	sort_stack(t_node **stack_a, t_node **stack_b)
 {
@@ -23,10 +24,7 @@ void	sort_stack(t_node **stack_a, t_node **stack_b)
 	if ((!(*stack_a)->next->next || !(*stack_a)->next->next->next) && !stack_a_sorted)
 		sort_max_three(stack_a);
 	else
-	{
-		operation = choose_operation(stack_a, stack_b, stack_a_sorted);
-		run_operation(stack_a, stack_b, operation);
-	}
+		choose_operation(stack_a, stack_b, stack_a_sorted);
 	return (sort_stack(stack_a, stack_b));
 }
 
@@ -43,35 +41,47 @@ int	choose_operation(t_node **stack_a, t_node **stack_b, bool stack_a_sorted)
 	else if (!stack_a_sorted && !*stack_b && is_stack_sorted((*stack_a)->next))
 		operation = RA;
 	else
-		operation = count_best_operation(*stack_a, *stack_b, stack_b_min_max);
+		operation = find_best_operation(*stack_a, *stack_b, stack_b_min_max);
 	if (operation == PB)
 		stack_b_min_max = store_stack_min_and_max(*stack_a);
 	return (operation);
 }
 
-int	count_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[])
+int	find_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[])
 {
-	int	min_operations;
-	int	temp_min_operations;
-	int	value_from_head;
-	int	value_from_tail;
+	int	operation[2];
+	int	temp_operation[2];
 
-	min_operations = 0;
-	temp_min_operations = 0;
+	operation[OPERATION] = INT_MAX;
+	operation[TIMES_TO_RUN] = INT_MIN;
 	while (stack_a)
 	{
 		if (stack_a->value < b_min_max[MIN])
+			count_best_operation_for_new_min(stack_a, stack_b, b_min_max, temp_operation);
+		if (temp_operation[TIMES_TO_RUN] < operation[TIMES_TO_RUN])
 		{
-			value_from_head = find_max_value_moves_from_head(stack_b, b_min_max[MAX]);
-			value_from_tail = find_max_value_moves_from_tail(stack_b, b_min_max[MAX]);
-			if (value_from_head < value_from_tail)
-				temp_min_operations = value_from_head;
-			else
-				temp_min_operations = value_from_tail;
-			if (!min_operations)
-				min_operations = temp_min_operations;
+			temp_operation[OPERATION] = operation[OPERATION];
+			temp_operation[TIMES_TO_RUN] = operation[TIMES_TO_RUN];
 		}
 	}
+	return (0);
+}
+
+int	*count_best_operation_for_new_min(t_node *stack_a, t_node *stack_b, int b_min_max[], int op[])
+{
+	static int	min_operations[4];
+	int			head_min_ops;
+	int			tail_min_ops;
+
+	if (stack_a->value < b_min_max[MIN])
+	{
+		head_min_ops = find_max_value_moves_from_head(stack_b, b_min_max[MAX]);
+		tail_min_ops = find_max_value_moves_from_tail(stack_b, b_min_max[MAX]);
+	}
+	if (head_min_ops < min_operations[HEAD_NUM_OF_OPS])
+		min_operations[HEAD_NUM_OF_OPS] = head_min_ops;
+	if (tail_min_ops < min_operations[TAIL_NUM_OF_OPS])
+		min_operations[TAIL_NUM_OF_OPS] = tail_min_ops;
 	return (min_operations);
 }
 
