@@ -11,59 +11,44 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <climits>
 
-void	sort_stack(t_node **stack_a, t_node **stack_b)
+void	sort_stack(t_stacks *stacks)
 {
-	int		operation;
 	bool	stack_a_sorted;
 
-	stack_a_sorted = is_stack_sorted(*stack_a);
-	if (!(*stack_b) && stack_a_sorted)
+	stack_a_sorted = is_stack_sorted(stacks->stack_a);
+	if (!(stacks->stack_b) && stack_a_sorted)
 		return ;
-	if ((!(*stack_a)->next->next || !(*stack_a)->next->next->next) && !stack_a_sorted)
-		sort_max_three(stack_a);
+	if ((!(stacks->stack_a)->next->next || !(stacks->stack_a)->next->next->next) && !stack_a_sorted)
+		sort_max_three(&stacks->stack_a);
 	else
-		choose_operation(stack_a, stack_b, stack_a_sorted);
-	return (sort_stack(stack_a, stack_b));
+		choose_operation(stacks, stack_a_sorted);
+	return (sort_stack(stacks));
 }
 
-int	choose_operation(t_node **stack_a, t_node **stack_b, bool stack_a_sorted)
+int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 {
 	static int	*stack_b_min_max;
 	int	operation;
 
-	if ((!(*stack_b) || !(*stack_b)->next) && !stack_a_sorted)
+	if ((!stacks->stack_b || !stacks->stack_b->next) && !stack_a_sorted)
 		operation = PB;
-	else if (*stack_b && is_stack_reverse_sorted(*stack_b)
+	else if (stacks->stack_b && is_stack_reverse_sorted(stacks->stack_b)
 		&& stack_a_sorted)
 		operation = PA;
-	else if (!stack_a_sorted && !*stack_b && is_stack_sorted((*stack_a)->next))
+	else if (!stack_a_sorted && !stacks->stack_b && is_stack_sorted(stacks->stack_a->next))
 		operation = RA;
 	else
-		operation = find_best_operation(*stack_a, *stack_b, stack_b_min_max);
+		operation = find_best_operation(stacks, stack_b_min_max);
 	if (operation == PB)
-		stack_b_min_max = store_stack_min_and_max(*stack_a);
+		stack_b_min_max = store_stack_min_and_max(stacks->stack_a);
 	return (operation);
 }
 
-int	find_best_operation(t_node *stack_a, t_node *stack_b, int b_min_max[])
+int	find_best_operation(t_stacks *stacks, int b_min_max[])
 {
-	int	operation[2];
-	int	temp_operation[2];
-
-	operation[OPERATION] = INT_MAX;
-	operation[TIMES_TO_RUN] = INT_MIN;
-	while (stack_a)
-	{
-		if (stack_a->value < b_min_max[MIN])
-			count_best_operation_for_new_min(stack_a, stack_b, b_min_max, temp_operation);
-		if (temp_operation[TIMES_TO_RUN] < operation[TIMES_TO_RUN])
-		{
-			temp_operation[OPERATION] = operation[OPERATION];
-			temp_operation[TIMES_TO_RUN] = operation[TIMES_TO_RUN];
-		}
-	}
+	(void)stacks;
+	(void)b_min_max;
 	return (0);
 }
 
@@ -73,6 +58,9 @@ int	*count_best_operation_for_new_min(t_node *stack_a, t_node *stack_b, int b_mi
 	int			head_min_ops;
 	int			tail_min_ops;
 
+	tail_min_ops = 0;
+	head_min_ops = 0;
+	(void)op;
 	if (stack_a->value < b_min_max[MIN])
 	{
 		head_min_ops = find_max_value_moves_from_head(stack_b, b_min_max[MAX]);

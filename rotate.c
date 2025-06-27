@@ -54,22 +54,22 @@ char	*rotate_stack_reverse(t_node **stack, int operation)
 		return ("rrb");
 }
 
-char	*rotate_both_stacks(t_node **stack_a, t_node **stack_b)
+char	*rotate_both_stacks(t_stacks *stacks)
 {
-	if (!stack_a || !stack_b || !*stack_a || !*stack_b
-		|| !(*stack_a)->next || !(*stack_b)->next)
+	if (!stacks->stack_a || !stacks->stack_b
+		|| !stacks->stack_a->next || !stacks->stack_b->next)
 		return (NULL);
-	rotate_stack(stack_a, RA);
-	rotate_stack(stack_b, RB);
+	rotate_stack(&stacks->stack_a, RA);
+	rotate_stack(&stacks->stack_b, RB);
 	return ("rr");
 }
 
-char	*rotate_both_stacks_reverse(t_node **stack_a, t_node **stack_b)
+char	*rotate_both_stacks_reverse(t_stacks *stacks)
 {
-	if (!stack_a || !stack_b || !*stack_a || !*stack_b
-		|| !(*stack_a)->next || !(*stack_b)->next)
+	if (!stacks->stack_a || !stacks->stack_b
+		|| !stacks->stack_a->next || !stacks->stack_b->next)
 		return (NULL);
-	rotate_stack_reverse(stack_a, RRA);
-	rotate_stack_reverse(stack_b, RRB);
+	rotate_stack_reverse(&stacks->stack_a, RRA);
+	rotate_stack_reverse(&stacks->stack_b, RRB);
 	return ("rrr");
 }

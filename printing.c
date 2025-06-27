@@ -51,16 +51,22 @@ void	print_stack_reverse(t_node *stack)
 	}
 }
 
-void	print_detailed_stacks(t_node *stack_a, t_node *stack_b)
+void	print_detailed_stacks(t_stacks *stacks)
 {
 	ft_printf("Stack a:\t ");
-	print_stack(stack_a);
+	print_stack(stacks->stack_a);
 	ft_printf("Stack a rev:\t ");
-	print_stack_reverse(stack_a);
+	print_stack_reverse(stacks->stack_a);
+	ft_printf("Stack a min:\t %d\n", stacks->stack_a_min);
+	ft_printf("Stack a max:\t %d\n", stacks->stack_a_max);
+	ft_printf("Stack a len:\t %d\n", stacks->stack_a_len);
+	ft_printf("Stack_a sorted:\t %d\n", is_stack_sorted(stacks->stack_a));
 	ft_printf("Stack b:\t ");
-	print_stack(stack_b);
+	print_stack(stacks->stack_b);
 	ft_printf("Stack b rev:\t ");
-	print_stack_reverse(stack_b);
-	ft_printf("Is stack_a sorted: %d\n", is_stack_sorted(stack_a));
-	ft_printf("Is stack_b sorted: %d\n", is_stack_sorted(stack_b));
+	print_stack_reverse(stacks->stack_b);
+	ft_printf("Stack b min:\t %d\n", stacks->stack_b_min);
+	ft_printf("Stack b max:\t %d\n", stacks->stack_b_max);
+	ft_printf("Stack b len:\t %d\n", stacks->stack_b_len);
+	ft_printf("Stack_b sorted:\t %d\n", is_stack_sorted(stacks->stack_b));
 }

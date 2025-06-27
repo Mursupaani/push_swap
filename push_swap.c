@@ -12,41 +12,41 @@
 
 #include "push_swap.h"
 
-void	push_swap(t_node **stack_a, t_node **stack_b, char **args, bool dynarg)
+void	push_swap(t_stacks *stacks, char **args, bool dynarg)
 {
-	if (!pre_parse_input_args(args) || !parse_input_args(args, stack_a))
-		error_exit(stack_a, stack_b, args, dynarg);
-	if (is_stack_sorted(*stack_a))
+	if (!pre_parse_input_args(args) || !parse_input_args(args, stacks))
+		error_exit(stacks, args, dynarg);
+	if (is_stack_sorted(stacks->stack_a))
 		return ;
-	sort_stack(stack_a, stack_b);
+	sort_stack(stacks);
 }
 
-void	run_operation(t_node **stack_a, t_node **stack_b, int operation)
+void	run_operation(t_stacks *stacks, int operation)
 {
 	char	*op;
 
 	if (operation == SA)
-		op = swap_top_two_elements(stack_a, operation);
+		op = swap_top_two_elements(&(stacks->stack_a), operation);
 	else if (operation == SB)
-		op = swap_top_two_elements(stack_b, operation);
+		op = swap_top_two_elements(&(stacks->stack_b), operation);
 	else if (operation == SS)
-		op = swap_tops_of_both_stacks(stack_a, stack_b);
+		op = swap_tops_of_both_stacks(stacks);
 	else if (operation == PA)
-		op = push_top_to_other_stack(stack_b, stack_a, operation);
+		op = push_top_to_other_stack(stacks, operation);
 	else if (operation == PB)
-		op = push_top_to_other_stack(stack_a, stack_b, operation);
+		op = push_top_to_other_stack(stacks, operation);
 	else if	(operation == RA)
-		op = rotate_stack(stack_a, operation);
+		op = rotate_stack(&(stacks->stack_a), operation);
 	else if	(operation == RB)
-		op = rotate_stack(stack_b, operation);
+		op = rotate_stack(&(stacks->stack_b), operation);
 	else if (operation == RR)
-		op = rotate_both_stacks(stack_a, stack_b);
+		op = rotate_both_stacks(stacks);
 	else if (operation == RRA)
-		op = rotate_stack_reverse(stack_a, operation);
+		op = rotate_stack_reverse(&(stacks->stack_a), operation);
 	else if (operation == RRB )
-		op = rotate_stack_reverse(stack_b, operation);
+		op = rotate_stack_reverse(&(stacks->stack_b), operation);
 	else
-		op = rotate_both_stacks_reverse(stack_a, stack_b);
+		op = rotate_both_stacks_reverse(stacks);
 	ft_printf("%s\n", op);
 }
 

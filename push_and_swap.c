@@ -34,23 +34,35 @@ char	*swap_top_two_elements(t_node **stack, int operation)
 		return (NULL);
 }
 
-char	*push_top_to_other_stack(t_node **from_stack, t_node **to_stack, int op)
+char	*push_top_to_other_stack(t_stacks *stacks, int op)
 {
 	t_node	*temp;
+	t_node	*from_stack;
+	t_node	*to_stack;
 
-	if (!*from_stack || !from_stack || !to_stack)
+	if (!stacks || !stacks->stack_a || !stacks->stack_b)
 		return (NULL);
-	temp = remove_top_element(from_stack);
-	add_node_front(to_stack, temp);
+	if (op == PA)
+	{
+		from_stack = stacks->stack_b;
+		to_stack = stacks->stack_a;
+	}
+	else
+	{
+		from_stack = stacks->stack_a;
+		to_stack = stacks->stack_b;
+	}
+	temp = remove_top_element(&from_stack);
+	add_node_front(&to_stack, temp);
 	if (op == PA)
 		return ("pa");
 	else
 		return ("pb");
 }
 
-char	*swap_tops_of_both_stacks(t_node **stack_a, t_node **stack_b)
+char	*swap_tops_of_both_stacks(t_stacks *stacks)
 {
-	swap_top_two_elements(stack_a, SA);
-	swap_top_two_elements(stack_b, SB);
+	swap_top_two_elements(&stacks->stack_a, SA);
+	swap_top_two_elements(&stacks->stack_b, SB);
 	return ("ss");
 }
