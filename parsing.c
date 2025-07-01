@@ -51,6 +51,10 @@ bool	parse_input_args(char **args, t_stacks *stacks)
 			return (false);
 		if (!add_node_back(&(stacks->stack_a), temp))
 			return (false);
+		if (current_value > stacks->stack_a_max)
+			stacks->stack_a_max = current_value;
+		if (current_value < stacks->stack_a_min)
+			stacks->stack_a_min = current_value;
 		args++;
 		stacks->stack_a_len++;
 	}
