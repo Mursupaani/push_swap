@@ -38,11 +38,12 @@ typedef struct s_stacks
 
 typedef struct s_costs
 {
-	int	*current_a_operations;
-	int	*current_b_operations;
-	int	*total_operations;
-	int	*current_total_operations;
-	int	best_operations[7];
+	int		*current_a_operations;
+	int		*current_b_operations;
+	int		*total_operations;
+	int		*current_total_operations;
+	int		best_operations[7];
+	bool	first_run;
 
 	int	move_a_to_top;
 	int	move_b_to_top;

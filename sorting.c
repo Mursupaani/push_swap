@@ -16,6 +16,7 @@ void	sort_stack(t_stacks *stacks)
 {
 	bool	stack_a_sorted;
 
+	print_detailed_stacks(stacks);
 	stack_a_sorted = is_stack_sorted(stacks->stack_a);
 	if (!(stacks->stack_b) && stack_a_sorted)
 		return ;
@@ -44,6 +45,7 @@ int	find_best_operation(t_stacks *stacks)
 	t_costs	costs;
 	t_node	*temp;
 
+	costs.first_run = true;
 	costs.current_a_pos = 0;
 	temp = stacks->stack_a;
 	while (temp)
@@ -54,7 +56,7 @@ int	find_best_operation(t_stacks *stacks)
 		else
 			costs.current_b_operations = calculate_correct_position_in_b(temp->value, stacks->stack_b, stacks->stack_b_len);
 		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
-		if (!costs.best_operations[OPERATION_SUM] || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
+		if (costs.first_run || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
 			save_best_operations(&costs);
 		temp = temp->next;
 		costs.current_a_pos++;
@@ -92,7 +94,6 @@ void	run_best_operations(t_stacks *stacks, int best_operations[])
 			run_operation_and_update_stacks(stacks, RRB);
 	}
 	run_operation_and_update_stacks(stacks, PB);
-	print_detailed_stacks(stacks);
 }
 
 void	save_best_operations(t_costs *costs)
@@ -104,6 +105,7 @@ void	save_best_operations(t_costs *costs)
 	costs->best_operations[A_OPERATION_TIMES] = costs->current_total_operations[A_OPERATION_TIMES];
 	costs->best_operations[B_OPERATION] = costs->current_total_operations[B_OPERATION];
 	costs->best_operations[B_OPERATION_TIMES] = costs->current_total_operations[B_OPERATION_TIMES];
+	costs->first_run = false;
 }
 
 int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
@@ -112,7 +114,12 @@ int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 	int			max_position;
 
 	max_position = find_max_value_pos(stack, max_value);
-	if (max_position <= stack_len)
+	if (max_position == 0)
+	{
+		operations[OPERATION] = NOTHING;
+		operations[TIMES_TO_RUN] = max_position;
+	}
+	else if (max_position <= stack_len)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = max_position;
