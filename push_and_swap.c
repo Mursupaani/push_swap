@@ -6,16 +6,21 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:02:31 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/23 16:25:49 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:58:53 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-char	*swap_top_two_elements(t_node **stack, int operation)
+char	*swap_top_two_elements(t_stacks *stacks, int operation)
 {
 	t_node	*temp;
+	t_node	**stack;
 
+	if (operation == SA)
+		stack = &stacks->stack_a;
+	else
+		stack = &stacks->stack_b;
 	if (!*stack || !(*stack)->next)
 		return (NULL);
 	temp = *stack;
@@ -34,12 +39,25 @@ char	*swap_top_two_elements(t_node **stack, int operation)
 		return (NULL);
 }
 
-char	*push_top_to_other_stack(t_node **from_stack, t_node **to_stack, int op)
+char	*push_top_to_other_stack(t_stacks *stacks, int op)
 {
 	t_node	*temp;
+	t_node	**from_stack;
+	t_node	**to_stack;
 
+	if (op == PA)
+	{
+		from_stack = &stacks->stack_b;
+		to_stack = &stacks->stack_a;
+	}
+	else
+	{
+		from_stack = &stacks->stack_a;
+		to_stack = &stacks->stack_b;
+	}
 	if (!*from_stack || !from_stack || !to_stack)
 		return (NULL);
+	update_stack_details(stacks, op);
 	temp = remove_top_element(from_stack);
 	add_node_front(to_stack, temp);
 	if (op == PA)
@@ -48,9 +66,9 @@ char	*push_top_to_other_stack(t_node **from_stack, t_node **to_stack, int op)
 		return ("pb");
 }
 
-char	*swap_tops_of_both_stacks(t_node **stack_a, t_node **stack_b)
+char	*swap_tops_of_both_stacks(t_stacks *stacks)
 {
-	swap_top_two_elements(stack_a, SA);
-	swap_top_two_elements(stack_b, SB);
+	swap_top_two_elements(stacks, SA);
+	swap_top_two_elements(stacks, SB);
 	return ("ss");
 }

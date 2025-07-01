@@ -6,21 +6,23 @@
 /*   By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 13:32:15 by anpollan          #+#    #+#             */
-/*   Updated: 2025/06/13 20:57:58 by anpollan         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:33:34 by anpollan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <bits/types/stack_t.h>
+#include <limits.h>
+#include <stdlib.h>
+
+static t_stacks	*initialize_stacks(char **args, bool dynarg);
 
 int	main(int argc, char *argv[])
 {
-	t_node		*stack_a;
-	t_node		*stack_b;
+	t_stacks	*stacks;
 	bool		dynarg;
 	char		**args;
 
-	stack_a = NULL;
-	stack_b = NULL;
 	if (argc == 1)
 	{
 		ft_putstr_fd("Error\n", 2);
@@ -36,8 +38,27 @@ int	main(int argc, char *argv[])
 		args = &argv[1];
 		dynarg = false;
 	}
-	push_swap(&stack_a, &stack_b, args, dynarg);
-	free_memory(&stack_a, &stack_b, args, dynarg);
+	stacks = initialize_stacks(args, dynarg);
+	push_swap(stacks, args, dynarg);
+	print_detailed_stacks(stacks);
+	free_memory(stacks, args, dynarg);
 	return (0);
 }
 
+static t_stacks	*initialize_stacks(char **args, bool dynarg)
+{
+	t_stacks	*stacks;
+
+	stacks = (t_stacks *)malloc(sizeof(t_stacks));
+	if (!stacks)
+		error_exit(NULL, args, dynarg);
+	stacks->stack_a = NULL;
+	stacks->stack_a_len = 0;
+	stacks->stack_a_max = INT_MIN;
+	stacks->stack_a_min = INT_MAX;
+	stacks->stack_b = NULL;
+	stacks->stack_b_len = 0;
+	stacks->stack_b_max = INT_MIN;
+	stacks->stack_b_min = INT_MAX;
+	return (stacks);
+}

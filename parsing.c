@@ -34,24 +34,29 @@ bool	arg_only_digits(char *arg)
 	return (true);
 }
 
-bool	parse_input_args(char **args, t_node **stack_a)
+bool	parse_input_args(char **args, t_stacks *stacks)
 {
 	t_node	*temp;
 	int		current_value;
 
-	if (!args || !stack_a)
+	if (!args || !stacks || !&(stacks->stack_a))
 		return (false);
 	while (*args)
 	{
 		current_value = ft_atoi(*args);
-		if (*stack_a && !value_is_unique(current_value, *stack_a))
+		if (stacks->stack_a && !value_is_unique(current_value, stacks->stack_a))
 			return (false);
 		temp = create_new_node(current_value);
 		if (!temp)
 			return (false);
-		if (!add_node_back(stack_a, temp))
+		if (!add_node_back(&(stacks->stack_a), temp))
 			return (false);
+		if (current_value > stacks->stack_a_max)
+			stacks->stack_a_max = current_value;
+		if (current_value < stacks->stack_a_min)
+			stacks->stack_a_min = current_value;
 		args++;
+		stacks->stack_a_len++;
 	}
 	return (true);
 }
