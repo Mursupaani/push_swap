@@ -50,9 +50,9 @@ int	find_best_operation(t_stacks *stacks)
 	temp = stacks->stack_a;
 	while (temp)
 	{
-		costs.current_a_operations = calculate_value_to_top(stacks->stack_a_len, costs.current_a_pos);
+		costs.current_a_operations = calculate_max_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
-			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_max);
+			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
 		else
 			costs.current_b_operations = calculate_correct_position_in_b(temp->value, stacks->stack_b, stacks->stack_b_len);
 		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
@@ -119,7 +119,7 @@ int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 		operations[OPERATION] = NOTHING;
 		operations[TIMES_TO_RUN] = max_position;
 	}
-	else if (max_position <= stack_len)
+	else if (max_position <= stack_len / 2)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = max_position;
@@ -195,7 +195,12 @@ int	*calculate_correct_position_in_b(int value_to_add, t_node *stack_to_append, 
 	int			correct_position;
 
 	correct_position = find_correct_value_pos_in_b(stack_to_append, value_to_add);
-	if (correct_position <= stack_len)
+	if (correct_position == 0)
+	{
+		operations[OPERATION] = NOTHING;
+		operations[TIMES_TO_RUN] = 0;
+	}
+	if (correct_position <= stack_len / 2)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = correct_position;
