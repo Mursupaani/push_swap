@@ -4,3 +4,4 @@ p_test
 checker*
 *.json
 *.o
+push_swap_tester/
