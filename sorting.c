@@ -31,8 +31,8 @@ int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 {
 	if (stacks->stack_b_len < 2 && !stack_a_sorted)
 		run_operation_and_update_stacks(stacks, PB);
-	else if (stack_a_sorted && stacks->stack_b)
-		run_operation_and_update_stacks(stacks, PA);
+	// else if (stack_a_sorted && stacks->stack_b)
+	// 	run_operation_and_update_stacks(stacks, PA);
 	else if (!stack_a_sorted && !stacks->stack_b && is_stack_sorted(stacks->stack_a->next))
 			run_operation_and_update_stacks(stacks, RA);
 	else
@@ -52,7 +52,7 @@ int	find_best_operation(t_stacks *stacks)
 	{
 		costs.current_a_operations = calculate_value_to_top(stacks->stack_a_len, costs.current_a_pos);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
-			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_max);
+			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
 		else
 			costs.current_b_operations = calculate_correct_position_in_b(temp->value, stacks->stack_b, stacks->stack_b_len);
 		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
@@ -119,7 +119,7 @@ int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 		operations[OPERATION] = NOTHING;
 		operations[TIMES_TO_RUN] = max_position;
 	}
-	else if (max_position <= stack_len / 2)
+	else if (max_position <= stack_len)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = max_position;
