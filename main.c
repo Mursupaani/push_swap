@@ -37,7 +37,7 @@ int	main(int argc, char *argv[])
 	}
 	stacks = initialize_stacks(args, dynarg);
 	push_swap(stacks);
-	print_detailed_stacks(stacks);
+	// print_detailed_stacks(stacks);
 	free_memory(stacks, NULL);
 	return (0);
 }

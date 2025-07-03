@@ -154,10 +154,4 @@ void	run_best_operations(t_stacks *stacks, int best_operations[], char stack);
 void	find_best_push_or_rot_a(t_stacks *stacks);
 int		*store_operations_to_array(int operations[], int correct_position, int stack_len);
 
-// int		*find_smaller_value_from_head(t_node *stack, int value);
-// int		*find_smaller_value_from_tail(t_node *stack, int value);
-// int		find_max_value_moves_from_head(t_node *stack, int max_value_in_stack);
-// int		find_max_value_moves_from_tail(t_node *stack, int max_value_in_stack);
-// int		*calculate_value_to_top(int stack_len, int pos_in_stack);
-
 #endif
