@@ -12,6 +12,7 @@
 
 #include "libft/libft.h"
 #include "push_swap.h"
+#include <stdlib.h>
 
 void	sort_stack(t_stacks *stacks)
 {
@@ -41,7 +42,7 @@ int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 	return (0);
 }
 
-int	find_best_operation(t_stacks *stacks)
+void	find_best_operation(t_stacks *stacks)
 {
 	t_costs	costs;
 	t_node	*temp;
@@ -51,11 +52,13 @@ int	find_best_operation(t_stacks *stacks)
 	temp = stacks->stack_a;
 	while (temp)
 	{
-		costs.current_a_operations = calculate_value_to_top(stacks->stack_a_len, costs.current_a_pos);
+		costs.current_a_operations = calculate_max_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
 			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
 		else
 			costs.current_b_operations = calculate_correct_position_in_b(temp->value, stacks->stack_b, stacks->stack_b_len);
+		if (!costs.current_a_operations || !costs.current_b_operations)
+			return ;
 		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
 		if (costs.first_run || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
 			save_best_operations(&costs);
@@ -63,7 +66,6 @@ int	find_best_operation(t_stacks *stacks)
 		costs.current_a_pos++;
 	}
 	run_best_operations(stacks, costs.best_operations);
-	return (0);
 }
 
 // void	find_best_operation_to_push_to_a(t_stacks *stacks)
@@ -107,13 +109,18 @@ void	save_best_operations(t_costs *costs)
 	costs->best_operations[B_OPERATION] = costs->current_total_operations[B_OPERATION];
 	costs->best_operations[B_OPERATION_TIMES] = costs->current_total_operations[B_OPERATION_TIMES];
 	costs->first_run = false;
+	free(costs->current_a_operations);
+	free(costs->current_b_operations);
 }
 
 int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 {
-	static int	operations[2];
-	int			max_position;
+	int	*operations;
+	int	max_position;
 
+	operations = (int *)malloc(sizeof(int) * 2);
+	if (!operations)
+		return (NULL);
 	max_position = find_max_value_pos(stack, max_value);
 	if (max_position == 0)
 	{
@@ -192,9 +199,12 @@ int	*calculate_value_to_top(int stack_len, int pos_in_stack)
 
 int	*calculate_correct_position_in_b(int value_to_add, t_node *stack_to_append, int stack_len)
 {
-	static int	operations[2];
-	int			correct_position;
+	int	*operations;
+	int	correct_position;
 
+	operations = (int *)malloc(sizeof(int) * 2);
+	if (!operations)
+		return (NULL);
 	correct_position = find_correct_value_pos_in_b(stack_to_append, value_to_add);
 	if (correct_position == 0)
 	{
@@ -257,15 +267,19 @@ int *calculate_operation_sum(int a_operations[], int b_operations[])
 		operation_sum[COMMON_OPERATION] = a_operations[OPERATION];
 	}
 	else
+	{
 		operation_sum[COMMON_OPERATION] = NOTHING;
+		operation_sum[COMMON_OPERATION_TIMES] = 0;
+	}
 	a_operation_times -= common_operations;
 	b_operation_times -= common_operations;
 	operation_sum[A_OPERATION] = a_operations[OPERATION];
 	operation_sum[A_OPERATION_TIMES] = a_operation_times;
 	operation_sum[B_OPERATION] = b_operations[OPERATION];
 	operation_sum[B_OPERATION_TIMES] = b_operation_times;
-	operation_sum[OPERATION_SUM] = common_operations + a_operation_times + b_operation_times;
 	operation_sum[COMMON_OPERATION_TIMES] = common_operations;
+	operation_sum[OPERATION_SUM] = common_operations + a_operation_times + b_operation_times;
+
 	ft_printf("Operation sum: %d\n", operation_sum[OPERATION_SUM]);
 	return (operation_sum);
 }
