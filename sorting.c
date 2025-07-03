@@ -53,9 +53,9 @@ void	find_best_operation_to_b(t_stacks *stacks)
 	temp = stacks->stack_a;
 	while (temp)
 	{
-		costs.current_a_operations = calculate_value_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
+		costs.current_a_operations = calculate_value_to_top(stacks->stack_a, temp->value, stacks->stack_a_len, &costs.current_a_pos);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
-			costs.current_b_operations = calculate_value_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
+			costs.current_b_operations = calculate_value_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len, NULL);
 		else
 			costs.current_b_operations = calculate_correct_position(temp->value, stacks->stack_b, stacks->stack_b_len, 'b');
 		if (!costs.current_a_operations || !costs.current_b_operations)
@@ -81,9 +81,9 @@ void	find_best_operation_to_a(t_stacks *stacks)
 	temp = stacks->stack_b;
 	while (temp)
 	{
-		costs.current_b_operations = calculate_value_to_top(stacks->stack_b, temp->value, stacks->stack_b_len);
+		costs.current_b_operations = calculate_value_to_top(stacks->stack_b, temp->value, stacks->stack_b_len, &costs.current_b_pos);
 		if (temp->value < stacks->stack_a_min || temp->value > stacks->stack_a_max)
-			costs.current_a_operations = calculate_value_to_top(stacks->stack_a, stacks->stack_a_min, stacks->stack_a_len);
+			costs.current_a_operations = calculate_value_to_top(stacks->stack_a, stacks->stack_a_min, stacks->stack_a_len, NULL);
 		else
 			costs.current_a_operations = calculate_correct_position(temp->value, stacks->stack_a, stacks->stack_a_len, 'a');
 		if (!costs.current_a_operations || !costs.current_b_operations)
@@ -139,7 +139,7 @@ void	save_best_operations(t_costs *costs)
 	costs->first_run = false;
 }
 
-int	*calculate_value_to_top(t_node *stack, int value, int stack_len)
+int	*calculate_value_to_top(t_node *stack, int value, int stack_len, int *pos)
 {
 	int	*operations;
 	int	position;
@@ -147,7 +147,10 @@ int	*calculate_value_to_top(t_node *stack, int value, int stack_len)
 	operations = (int *)malloc(sizeof(int) * 2);
 	if (!operations)
 		return (NULL);
-	position = find_value_pos(stack, value);
+	if (!pos)
+		position = find_value_pos(stack, value);
+	else
+		position = *pos;
 	store_operations_to_array(operations, position, stack_len);
 	return (operations);
 }

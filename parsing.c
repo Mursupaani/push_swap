@@ -45,7 +45,7 @@ bool	parse_input_args(t_stacks *stacks)
 		return (false);
 	while (stacks->args[i])
 	{
-		current_value = ft_atoi(stacks->args[i]);
+		current_value = ft_atoi_error_exit(stacks->args[i], stacks);
 		if (stacks->stack_a && !value_is_unique(current_value, stacks->stack_a))
 			return (false);
 		temp = create_new_node(current_value);
@@ -78,4 +78,30 @@ bool	value_is_unique(int value, t_node *stack)
 		temp = temp->next;
 	}
 	return (true);
+}
+
+int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
+{
+	int			sign;
+	long int	result;
+
+	sign = 1;
+	result = 0;
+	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
+		nptr++;
+	if (*nptr == '+' || *nptr == '-')
+	{
+		if (*nptr == '-')
+			sign *= -1;
+		nptr++;
+	}
+	while (*nptr >= '0' && *nptr <= '9')
+	{
+		result *= 10;
+		result += *nptr - '0';
+		nptr++;
+	}
+	if (result > INT_MAX || result < INT_MIN)
+		error_exit(stacks, NULL);
+	return (sign * result);
 }

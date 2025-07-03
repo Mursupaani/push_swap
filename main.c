@@ -20,7 +20,7 @@ int	main(int argc, char *argv[])
 	bool		dynarg;
 	char		**args;
 
-	if (argc == 1)
+	if (argc == 1 || !argv || argv[1][0] == '\0')
 	{
 		ft_putstr_fd("Error\n", 2);
 		return (1);
