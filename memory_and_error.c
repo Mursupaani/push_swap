@@ -12,14 +12,14 @@
 
 #include "push_swap.h"
 
-void	error_exit(t_stacks *stacks, char **args, bool dynarg)
+void	error_exit(t_stacks *stacks, t_costs *costs)
 {
 	ft_putstr_fd("Error\n", 2);
-	free_memory(stacks, args, dynarg);
+	free_memory(stacks, costs);
 	exit(EXIT_FAILURE);
 }
 
-void	free_memory(t_stacks *stacks, char **args, bool dynarg)
+void	free_memory(t_stacks *stacks, t_costs *costs)
 {
 	t_node	*temp;
 	int		i;
@@ -38,13 +38,18 @@ void	free_memory(t_stacks *stacks, char **args, bool dynarg)
 		stacks->stack_b = NULL;
 		stacks->stack_b = temp;
 	}
+	if (costs && costs->current_a_operations)
+		free(costs->current_a_operations);
+	if (costs && costs->current_b_operations)
+		free(costs->current_b_operations);
 	free(stacks);
-	if (dynarg && args)
+	if (stacks->dynarg && stacks->args)
 	{
 		i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-		args = NULL;
+		while (stacks->args[i])
+			free(stacks->args[i++]);
+		free(stacks->args);
+		stacks->args = NULL;
 	}
+	exit(1);
 }

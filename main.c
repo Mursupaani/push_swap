@@ -39,9 +39,10 @@ int	main(int argc, char *argv[])
 		dynarg = false;
 	}
 	stacks = initialize_stacks(args, dynarg);
-	push_swap(stacks, args, dynarg);
+	push_swap(stacks);
 	print_detailed_stacks(stacks);
-	free_memory(stacks, args, dynarg);
+	// if leak check costs!
+	free_memory(stacks, NULL);
 	return (0);
 }
 
@@ -51,7 +52,7 @@ static t_stacks	*initialize_stacks(char **args, bool dynarg)
 
 	stacks = (t_stacks *)malloc(sizeof(t_stacks));
 	if (!stacks)
-		error_exit(NULL, args, dynarg);
+		error_exit(NULL, NULL);
 	stacks->stack_a = NULL;
 	stacks->stack_a_len = 0;
 	stacks->stack_a_max = INT_MIN;
@@ -60,5 +61,7 @@ static t_stacks	*initialize_stacks(char **args, bool dynarg)
 	stacks->stack_b_len = 0;
 	stacks->stack_b_max = INT_MIN;
 	stacks->stack_b_min = INT_MAX;
+	stacks->args = args;
+	stacks->dynarg = dynarg;
 	return (stacks);
 }

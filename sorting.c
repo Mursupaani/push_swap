@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "push_swap.h"
-#include <stdlib.h>
 
 void	sort_stack(t_stacks *stacks)
 {
@@ -52,13 +50,13 @@ void	find_best_operation(t_stacks *stacks)
 	temp = stacks->stack_a;
 	while (temp)
 	{
-		costs.current_a_operations = calculate_max_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
+		costs.current_a_operations = calculate_value_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
-			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
+			costs.current_b_operations = calculate_value_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
 		else
 			costs.current_b_operations = calculate_correct_position_in_b(temp->value, stacks->stack_b, stacks->stack_b_len);
 		if (!costs.current_a_operations || !costs.current_b_operations)
-			return ;
+			error_exit(stacks, &costs);
 		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
 		if (costs.first_run || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
 			save_best_operations(&costs);
@@ -111,9 +109,11 @@ void	save_best_operations(t_costs *costs)
 	costs->first_run = false;
 	free(costs->current_a_operations);
 	free(costs->current_b_operations);
+	costs->current_a_operations = NULL;
+	costs->current_b_operations = NULL;
 }
 
-int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
+int	*calculate_value_to_top(t_node *stack, int max_value, int stack_len)
 {
 	int	*operations;
 	int	max_position;
@@ -173,28 +173,6 @@ void	sort_max_three_in_a_stack(t_stacks *stacks)
 	else
 		run_operation_and_update_stacks(stacks, RRA);
 	return (sort_max_three_in_a_stack(stacks));
-}
-
-int	*calculate_value_to_top(int stack_len, int pos_in_stack)
-{
-	static int	operations[2];
-
-	if (pos_in_stack == 0)
-	{
-		operations[TIMES_TO_RUN] = 0;
-		operations[OPERATION] = NOTHING;
-	}
-	else if (pos_in_stack <= stack_len / 2)
-	{
-		operations[TIMES_TO_RUN] = pos_in_stack;
-		operations[OPERATION] = ROTATE;
-	}
-	else
-	{
-		operations[TIMES_TO_RUN] = stack_len - pos_in_stack;
-		operations[OPERATION] = REVERSE_ROTATE;
-	}
-	return (operations);
 }
 
 int	*calculate_correct_position_in_b(int value_to_add, t_node *stack_to_append, int stack_len)
