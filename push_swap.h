@@ -34,6 +34,8 @@ typedef struct s_stacks
 	int		stack_a_max;
 	int		stack_b_min;
 	int		stack_b_max;
+	char	**args;
+	bool	dynarg;
 }	t_stacks;
 
 typedef struct s_costs
@@ -54,18 +56,6 @@ typedef struct s_costs
 	int	current_a_pos;
 	int	current_b_pos;
 }	t_costs;
-
-enum	Value_and_position
-{
-	VAL,
-	POS
-}	;
-
-enum	Min_and_max
-{
-	MIN,
-	MAX
-}	;
 
 enum	Operation_to_run_and_times_to_run
 {
@@ -108,10 +98,10 @@ void	print_stack(t_node *stack);
 void	print_stack_reverse(t_node *stack);
 void	print_detailed_stacks(t_stacks *stacks);
 
-void	push_swap(t_stacks *stacks, char **args, bool dynarg);
+void	push_swap(t_stacks *stacks);
 bool	pre_parse_input_args(char **args);
 bool	arg_only_digits(char *arg);
-bool	parse_input_args(char **args, t_stacks *stacks);
+bool	parse_input_args(t_stacks *stacks);
 t_node	*create_new_node(int value);
 t_node	*find_last_node(t_node *head);
 t_node	*add_node_back(t_node **head, t_node *node_to_add);
@@ -128,29 +118,28 @@ char	*rotate_both_stacks_reverse(t_stacks *stacks);
 bool	is_stack_sorted(t_node *stack);
 bool	is_stack_reverse_sorted(t_node *stack);
 bool	value_is_unique(int value, t_node *stack);
-void	free_memory(t_stacks *stacks, char **args, bool dynarg);
-void	error_exit(t_stacks *stacks, char **args, bool dynarg);
+void	free_memory(t_stacks *stacks, t_costs *costs);
+void	free_stacks_memory(t_stacks *stacks);
+void	free_operation_memory(t_costs *costs);
+void	free_dynamic_args(t_stacks *stacks);
+void	error_exit(t_stacks *stacks, t_costs *costs);
 void	run_operation_and_update_stacks(t_stacks *stacks, int operation);
 void	sort_stack(t_stacks *stacks);
 void	sort_max_three_in_a_stack(t_stacks *stacks);
 int		choose_operation(t_stacks *stacks, bool stack_a_sorted);
 int		*store_stack_min_and_max(t_node *stack);
-void		find_best_operation(t_stacks *stacks);
-int		*find_smaller_value_from_head(t_node *stack, int value);
-int		*find_smaller_value_from_tail(t_node *stack, int value);
-int		find_max_value_moves_from_head(t_node *stack, int max_value_in_stack);
-int		find_max_value_moves_from_tail(t_node *stack, int max_value_in_stack);
+void	find_best_operation_to_a(t_stacks *stacks);
+void	find_best_operation_to_b(t_stacks *stacks);
 void	update_stack_details(t_stacks *stacks, int operation);
-int		find_max_value_pos(t_node *stack, int max_value);
-int		*calculate_value_to_top(int stack_len, int pos_in_stack);
-int		*calculate_max_to_top(t_node *stack, int max_value, int stack_len);
+int		find_value_pos(t_node *stack, int value);
+int		*calculate_value_to_top(t_node *stack, int max_value, int stack_len);
 int		find_correct_value_pos_in_a(t_node *stack, int value_to_add);
 int		find_correct_value_pos_in_b(t_node *stack, int value_to_add);
-int		*calculate_correct_position_in_a(int value_to_add, t_node *stack_to_append, int stack_len);
-int		*calculate_correct_position_in_b(int value_to_add, t_node *stack_to_append, int stack_len);
+int		*calculate_correct_position(int value_to_add, t_node *stack_to_append, int stack_len, char stack);
 int		*calculate_operation_sum(int a_operations[], int b_operations[]);
 void	save_best_operations(t_costs *costs);
-void	run_best_operations(t_stacks *stacks, int best_operations[]);
+void	run_best_operations(t_stacks *stacks, int best_operations[], char stack);
 void	find_best_push_or_rot_a(t_stacks *stacks);
+int		*store_operations_to_array(int operations[], int correct_position, int stack_len);
 
 #endif

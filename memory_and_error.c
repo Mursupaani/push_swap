@@ -12,17 +12,37 @@
 
 #include "push_swap.h"
 
-void	error_exit(t_stacks *stacks, char **args, bool dynarg)
+void	error_exit(t_stacks *stacks, t_costs *costs)
 {
 	ft_putstr_fd("Error\n", 2);
-	free_memory(stacks, args, dynarg);
+	free_memory(stacks, costs);
 	exit(EXIT_FAILURE);
 }
 
-void	free_memory(t_stacks *stacks, char **args, bool dynarg)
+void	free_memory(t_stacks *stacks, t_costs *costs)
+{
+	free_dynamic_args(stacks);
+	free_operation_memory(costs);
+	free_stacks_memory(stacks);
+}
+
+void	free_operation_memory(t_costs *costs)
+{
+	if (costs && costs->current_a_operations)
+	{
+		free(costs->current_a_operations);
+		costs->current_a_operations = NULL;
+	}
+	if (costs && costs->current_b_operations)
+	{
+		free(costs->current_b_operations);
+		costs->current_b_operations = NULL;
+	}
+}
+
+void	free_stacks_memory(t_stacks *stacks)
 {
 	t_node	*temp;
-	int		i;
 
 	while (stacks->stack_a)
 	{
@@ -39,12 +59,18 @@ void	free_memory(t_stacks *stacks, char **args, bool dynarg)
 		stacks->stack_b = temp;
 	}
 	free(stacks);
-	if (dynarg && args)
+}
+
+void free_dynamic_args(t_stacks *stacks)
+{
+	int		i;
+
+	if (stacks->dynarg && stacks->args)
 	{
 		i = 0;
-		while (args[i])
-			free(args[i++]);
-		free(args);
-		args = NULL;
+		while (stacks->args[i])
+			free(stacks->args[i++]);
+		free(stacks->args);
+		stacks->args = NULL;
 	}
 }

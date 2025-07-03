@@ -34,16 +34,18 @@ bool	arg_only_digits(char *arg)
 	return (true);
 }
 
-bool	parse_input_args(char **args, t_stacks *stacks)
+bool	parse_input_args(t_stacks *stacks)
 {
 	t_node	*temp;
+	int		i;
 	int		current_value;
 
-	if (!args || !stacks || !&(stacks->stack_a))
+	i = 0;
+	if (!stacks || !stacks->args || !&(stacks->stack_a))
 		return (false);
-	while (*args)
+	while (stacks->args[i])
 	{
-		current_value = ft_atoi(*args);
+		current_value = ft_atoi(stacks->args[i]);
 		if (stacks->stack_a && !value_is_unique(current_value, stacks->stack_a))
 			return (false);
 		temp = create_new_node(current_value);
@@ -55,9 +57,10 @@ bool	parse_input_args(char **args, t_stacks *stacks)
 			stacks->stack_a_max = current_value;
 		if (current_value < stacks->stack_a_min)
 			stacks->stack_a_min = current_value;
-		args++;
+		i++;
 		stacks->stack_a_len++;
 	}
+	free_dynamic_args(stacks);
 	return (true);
 }
 

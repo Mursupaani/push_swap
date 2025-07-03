@@ -11,12 +11,11 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft/ft_printf.h"
 
-void	push_swap(t_stacks *stacks, char **args, bool dynarg)
+void	push_swap(t_stacks *stacks)
 {
-	if (!pre_parse_input_args(args) || !parse_input_args(args, stacks))
-		error_exit(stacks, args, dynarg);
+	if (!pre_parse_input_args(stacks->args) || !parse_input_args(stacks))
+		error_exit(stacks, NULL);
 	if (is_stack_sorted(stacks->stack_a))
 		return ;
 	sort_stack(stacks);
