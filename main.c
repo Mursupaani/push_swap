@@ -41,7 +41,6 @@ int	main(int argc, char *argv[])
 	stacks = initialize_stacks(args, dynarg);
 	push_swap(stacks);
 	print_detailed_stacks(stacks);
-	// if leak check costs!
 	free_memory(stacks, NULL);
 	return (0);
 }
