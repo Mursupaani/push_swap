@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "push_swap.h"
 
 void	sort_stack(t_stacks *stacks)
@@ -119,7 +120,7 @@ int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 		operations[OPERATION] = NOTHING;
 		operations[TIMES_TO_RUN] = max_position;
 	}
-	else if (max_position <= stack_len)
+	else if (max_position <= stack_len / 2)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = max_position;
@@ -195,7 +196,12 @@ int	*calculate_correct_position_in_b(int value_to_add, t_node *stack_to_append, 
 	int			correct_position;
 
 	correct_position = find_correct_value_pos_in_b(stack_to_append, value_to_add);
-	if (correct_position <= stack_len)
+	if (correct_position == 0)
+	{
+		operations[OPERATION] = NOTHING;
+		operations[TIMES_TO_RUN] = 0;
+	}
+	else if (correct_position <= stack_len / 2)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = correct_position;
@@ -251,14 +257,18 @@ int *calculate_operation_sum(int a_operations[], int b_operations[])
 		operation_sum[COMMON_OPERATION] = a_operations[OPERATION];
 	}
 	else
+	{
 		operation_sum[COMMON_OPERATION] = NOTHING;
+		operation_sum[COMMON_OPERATION_TIMES] = 0;
+	}
 	a_operation_times -= common_operations;
 	b_operation_times -= common_operations;
 	operation_sum[A_OPERATION] = a_operations[OPERATION];
 	operation_sum[A_OPERATION_TIMES] = a_operation_times;
 	operation_sum[B_OPERATION] = b_operations[OPERATION];
 	operation_sum[B_OPERATION_TIMES] = b_operation_times;
-	operation_sum[OPERATION_SUM] = common_operations + a_operation_times + b_operation_times + 1;
 	operation_sum[COMMON_OPERATION_TIMES] = common_operations;
+	operation_sum[OPERATION_SUM] = common_operations + a_operation_times + b_operation_times;
+	ft_printf("Operation sum: %d\n", operation_sum[OPERATION_SUM]);
 	return (operation_sum);
 }
