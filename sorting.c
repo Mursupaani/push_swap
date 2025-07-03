@@ -119,7 +119,7 @@ int	*calculate_max_to_top(t_node *stack, int max_value, int stack_len)
 		operations[OPERATION] = NOTHING;
 		operations[TIMES_TO_RUN] = max_position;
 	}
-	else if (max_position <= stack_len)
+	else if (max_position <= stack_len / 2)
 	{
 		operations[OPERATION] = ROTATE;
 		operations[TIMES_TO_RUN] = max_position;
