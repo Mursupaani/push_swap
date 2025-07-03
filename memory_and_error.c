@@ -21,8 +21,29 @@ void	error_exit(t_stacks *stacks, t_costs *costs)
 
 void	free_memory(t_stacks *stacks, t_costs *costs)
 {
+	free_operation_memory(costs);
+	free_dynamic_args(stacks);
+	free_stacks_memory(stacks);
+	exit(1);
+}
+
+void	free_operation_memory(t_costs *costs)
+{
+	if (costs && costs->current_a_operations)
+	{
+		free(costs->current_a_operations);
+		costs->current_a_operations = NULL;
+	}
+	if (costs && costs->current_b_operations)
+	{
+		free(costs->current_b_operations);
+		costs->current_b_operations = NULL;
+	}
+}
+
+void	free_stacks_memory(t_stacks *stacks)
+{
 	t_node	*temp;
-	int		i;
 
 	while (stacks->stack_a)
 	{
@@ -38,10 +59,13 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 		stacks->stack_b = NULL;
 		stacks->stack_b = temp;
 	}
-	if (costs && costs->current_a_operations)
-		free(costs->current_a_operations);
-	if (costs && costs->current_b_operations)
-		free(costs->current_b_operations);
+	free(stacks);
+}
+
+void free_dynamic_args(t_stacks *stacks)
+{
+	int		i;
+
 	if (stacks->dynarg && stacks->args)
 	{
 		i = 0;
@@ -50,6 +74,4 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 		free(stacks->args);
 		stacks->args = NULL;
 	}
-	free(stacks);
-	exit(1);
 }

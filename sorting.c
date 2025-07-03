@@ -16,7 +16,6 @@ void	sort_stack(t_stacks *stacks)
 {
 	bool	stack_a_sorted;
 
-	// print_detailed_stacks(stacks);
 	stack_a_sorted = is_stack_sorted(stacks->stack_a);
 	if (!(stacks->stack_b) && stack_a_sorted)
 		return ;
@@ -66,6 +65,7 @@ void	find_best_operation_to_b(t_stacks *stacks)
 			save_best_operations(&costs);
 		temp = temp->next;
 		costs.current_a_pos++;
+		free_operation_memory(&costs);
 	}
 	run_best_operations(stacks, costs.best_operations, 'b');
 }
@@ -93,6 +93,7 @@ void	find_best_operation_to_a(t_stacks *stacks)
 			save_best_operations(&costs);
 		temp = temp->next;
 		costs.current_b_pos++;
+		free_operation_memory(&costs);
 	}
 	run_best_operations(stacks, costs.best_operations, 'a');
 }
@@ -136,10 +137,6 @@ void	save_best_operations(t_costs *costs)
 	costs->best_operations[B_OPERATION] = costs->current_total_operations[B_OPERATION];
 	costs->best_operations[B_OPERATION_TIMES] = costs->current_total_operations[B_OPERATION_TIMES];
 	costs->first_run = false;
-	free(costs->current_a_operations);
-	free(costs->current_b_operations);
-	costs->current_a_operations = NULL;
-	costs->current_b_operations = NULL;
 }
 
 int	*calculate_value_to_top(t_node *stack, int value, int stack_len)

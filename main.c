@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <bits/types/stack_t.h>
-#include <limits.h>
-#include <stdlib.h>
 
 static t_stacks	*initialize_stacks(char **args, bool dynarg);
 
