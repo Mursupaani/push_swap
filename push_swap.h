@@ -57,18 +57,6 @@ typedef struct s_costs
 	int	current_b_pos;
 }	t_costs;
 
-// enum	Value_and_position
-// {
-// 	VAL,
-// 	POS
-// }	;
-//
-// enum	Min_and_max
-// {
-// 	MIN,
-// 	MAX
-// }	;
-
 enum	Operation_to_run_and_times_to_run
 {
 	OPERATION,

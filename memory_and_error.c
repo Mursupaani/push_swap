@@ -24,7 +24,6 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 	free_dynamic_args(stacks);
 	free_operation_memory(costs);
 	free_stacks_memory(stacks);
-	exit(1);
 }
 
 void	free_operation_memory(t_costs *costs)
@@ -65,15 +64,13 @@ void	free_stacks_memory(t_stacks *stacks)
 void free_dynamic_args(t_stacks *stacks)
 {
 	int		i;
-	char	**temp;
 
 	if (stacks->dynarg && stacks->args)
 	{
 		i = 0;
-		temp = stacks->args; 
-		while (temp[i])
-			free(temp[i++]);
-		free(temp);
-		temp = NULL;
+		while (stacks->args[i])
+			free(stacks->args[i++]);
+		free(stacks->args);
+		stacks->args = NULL;
 	}
 }
