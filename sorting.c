@@ -36,11 +36,11 @@ int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 	else if (!stack_a_sorted && !stacks->stack_b && is_stack_sorted(stacks->stack_a->next))
 			run_operation_and_update_stacks(stacks, RA);
 	else
-		find_best_operation(stacks);
+		find_best_operation_to_b(stacks);
 	return (0);
 }
 
-void	find_best_operation(t_stacks *stacks)
+void	find_best_operation_to_b(t_stacks *stacks)
 {
 	t_costs	costs;
 	t_node	*temp;

@@ -42,7 +42,6 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 		free(costs->current_a_operations);
 	if (costs && costs->current_b_operations)
 		free(costs->current_b_operations);
-	free(stacks);
 	if (stacks->dynarg && stacks->args)
 	{
 		i = 0;
@@ -51,5 +50,6 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 		free(stacks->args);
 		stacks->args = NULL;
 	}
+	free(stacks);
 	exit(1);
 }

@@ -137,7 +137,7 @@ void	sort_stack(t_stacks *stacks);
 void	sort_max_three_in_a_stack(t_stacks *stacks);
 int		choose_operation(t_stacks *stacks, bool stack_a_sorted);
 int		*store_stack_min_and_max(t_node *stack);
-void	find_best_operation(t_stacks *stacks);
+void	find_best_operation_to_b(t_stacks *stacks);
 // int		*find_smaller_value_from_head(t_node *stack, int value);
 // int		*find_smaller_value_from_tail(t_node *stack, int value);
 // int		find_max_value_moves_from_head(t_node *stack, int max_value_in_stack);
