@@ -50,7 +50,7 @@ int	find_best_operation(t_stacks *stacks)
 	temp = stacks->stack_a;
 	while (temp)
 	{
-		costs.current_a_operations = calculate_value_to_top(stacks->stack_a_len, costs.current_a_pos);
+		costs.current_a_operations = calculate_max_to_top(stacks->stack_a, temp->value, stacks->stack_a_len);
 		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
 			costs.current_b_operations = calculate_max_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len);
 		else
