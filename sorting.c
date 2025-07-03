@@ -279,6 +279,7 @@ int *calculate_operation_sum(int a_operations[], int b_operations[])
 	operation_sum[B_OPERATION_TIMES] = b_operation_times;
 	operation_sum[COMMON_OPERATION_TIMES] = common_operations;
 	operation_sum[OPERATION_SUM] = common_operations + a_operation_times + b_operation_times;
+
 	ft_printf("Operation sum: %d\n", operation_sum[OPERATION_SUM]);
 	return (operation_sum);
 }
