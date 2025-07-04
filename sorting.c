@@ -17,7 +17,7 @@ void	sort_stack(t_stacks *stacks)
 	bool	stack_a_sorted;
 
 	stack_a_sorted = is_stack_sorted(stacks->stack_a);
-	if (!(stacks->stack_b) && stack_a_sorted)
+	if (stack_a_sorted && !(stacks->stack_b))
 		return ;
 	if (stacks->stack_a_len <= 3 && !stack_a_sorted)
 		sort_max_three_in_a_stack(stacks);
