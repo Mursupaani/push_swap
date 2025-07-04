@@ -86,7 +86,7 @@ bool	val_is_unique(int val, t_node *stack)
 int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 {
 	int			sign;
-	long int	result;
+	long long int	result;
 
 	sign = 1;
 	result = 0;
@@ -106,7 +106,8 @@ int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 		result += *nptr - '0';
 		nptr++;
 	}
+	result *= sign;
 	if (result > INT_MAX || result < INT_MIN)
 		error_exit(stacks, NULL);
-	return (sign * result);
+	return (result);
 }
