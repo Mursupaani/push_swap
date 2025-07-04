@@ -71,7 +71,7 @@ int	*count_val_to_top(t_node *stack, int val, int stack_len, int *pos)
 	int	*operations;
 	int	cur_pos;
 
-	operations = (int *)malloc(sizeof(int) * 2);
+	operations = (int *)malloc(sizeof(int) * 4);
 	if (!operations)
 		return (NULL);
 	if (!pos)
@@ -102,7 +102,7 @@ int	*count_correct_pos(int val, t_node *stack, int len, char op_stack)
 	int	*operations;
 	int	correct_pos;
 
-	operations = (int *)malloc(sizeof(int) * 2);
+	operations = (int *)malloc(sizeof(int) * 4);
 	if (!operations)
 		return (NULL);
 	if (op_stack == 'b')

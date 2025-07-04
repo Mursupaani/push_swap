@@ -62,6 +62,12 @@ enum	e_operation_to_run_and_times_to_run
 	NOTHING
 }	;
 
+enum	e_rotate_to_top
+{
+	ROT_TIMES,
+	REVROT_TIMES
+}	;
+
 enum	e_best_ops
 {
 	A_OP,

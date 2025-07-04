@@ -16,18 +16,13 @@ int	*store_operations_to_array(int operations[], int correct_pos, int len)
 {
 	if (correct_pos == 0)
 	{
-		operations[OP] = NOTHING;
-		operations[OP_TIMES] = 0;
-	}
-	else if (correct_pos <= len / 2)
-	{
-		operations[OP] = ROTATE;
-		operations[OP_TIMES] = correct_pos;
+		operations[ROT_TIMES] = 0;
+		operations[REVROT_TIMES] = 0;
 	}
 	else
 	{
-		operations[OP] = REVERSE_ROTATE;
-		operations[OP_TIMES] = len - correct_pos;
+		operations[ROT_TIMES] = correct_pos;
+		operations[REVROT_TIMES] = len - correct_pos;
 	}
 	return (operations);
 }
@@ -58,6 +53,14 @@ int	*count_op_sum(int a_ops[], int b_ops[])
 	op_sum[SAME_OP_TIMES] = op_sum[SAME_OP_TIMES];
 	op_sum[OP_SUM] = op_sum[SAME_OP_TIMES] + a_ops[OP_TIMES] + b_ops[OP_TIMES];
 	return (op_sum);
+}
+
+int	*count_best_combination(t_stacks *stacks, int a_ops[], int b_ops[])
+{
+	int	curr_op_sum[7];
+	int	best_op_sum[7];
+
+	curr_op_sum]
 }
 
 void	save_best_ops(t_costs *costs)
