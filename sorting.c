@@ -17,7 +17,7 @@ void	sort_stack(t_stacks *stacks)
 	bool	stack_a_sorted;
 
 	stack_a_sorted = is_stack_sorted(stacks->a);
-	if (!(stacks->b) && stack_a_sorted)
+	if (stack_a_sorted && !(stacks->b))
 		return ;
 	if (stacks->a_len <= 3 && !stack_a_sorted)
 		sort_max_three_in_a_stack(stacks);
@@ -37,7 +37,7 @@ int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 	else if (push_all_to_a && stacks->b)
 		find_best_operation_to_a(stacks);
 	else if (push_all_to_a && !stacks->b)
-		run_operation_and_update_stacks(stacks, RA);
+		rotate_a_to_sort(stacks);
 	else
 		find_best_operation_to_b(stacks);
 	return (0);
