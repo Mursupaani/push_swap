@@ -30,7 +30,7 @@ bool	arg_only_digits(char *arg)
 	i = 0;
 	while (arg[i])
 	{
-		if (!ft_isdigit(arg[i]))
+		if (!(ft_isdigit(arg[i]) || arg[0] == '-' || arg[0] == '+'))
 			return (false);
 		arg++;
 	}
