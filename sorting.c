@@ -16,10 +16,10 @@ void	sort_stack(t_stacks *stacks)
 {
 	bool	stack_a_sorted;
 
-	stack_a_sorted = is_stack_sorted(stacks->stack_a);
-	if (!(stacks->stack_b) && stack_a_sorted)
+	stack_a_sorted = is_stack_sorted(stacks->a);
+	if (!(stacks->b) && stack_a_sorted)
 		return ;
-	if (stacks->stack_a_len <= 3 && !stack_a_sorted)
+	if (stacks->a_len <= 3 && !stack_a_sorted)
 		sort_max_three_in_a_stack(stacks);
 	else
 		choose_operation(stacks, stack_a_sorted);
@@ -32,91 +32,90 @@ int	choose_operation(t_stacks *stacks, bool stack_a_sorted)
 
 	if (stack_a_sorted)
 		push_all_to_a = true;
-	if (stacks->stack_b_len < 2 && !push_all_to_a)
+	if (stacks->b_len < 2 && !push_all_to_a)
 		run_operation_and_update_stacks(stacks, PB);
-	else if (push_all_to_a && stacks->stack_b)
+	else if (push_all_to_a && stacks->b)
 		find_best_operation_to_a(stacks);
-	else if (push_all_to_a && !stacks->stack_b)
+	else if (push_all_to_a && !stacks->b)
 		run_operation_and_update_stacks(stacks, RA);
 	else
 		find_best_operation_to_b(stacks);
 	return (0);
 }
 
-void	find_best_operation_to_b(t_stacks *stacks)
+void	find_best_operation_to_b(t_stacks *s)
 {
-	t_costs	costs;
-	t_node	*temp;
+	t_costs	c;
+	t_node	*tmp;
 
-	costs.first_run = true;
-	costs.current_a_pos = 0;
-	temp = stacks->stack_a;
-	while (temp)
+	c.first_run = true;
+	c.cur_a_pos = 0;
+	tmp = s->a;
+	while (tmp)
 	{
-		costs.current_a_operations = calculate_value_to_top(stacks->stack_a, temp->value, stacks->stack_a_len, &costs.current_a_pos);
-		if (temp->value < stacks->stack_b_min || temp->value > stacks->stack_b_max)
-			costs.current_b_operations = calculate_value_to_top(stacks->stack_b, stacks->stack_b_max, stacks->stack_b_len, NULL);
+		c.cur_a_ops = count_val_to_top(s->a, tmp->val, s->a_len, &c.cur_a_pos);
+		if (tmp->val < s->b_min || tmp->val > s->b_max)
+			c.cur_b_ops = count_val_to_top(s->b, s->b_max, s->b_len, NULL);
 		else
-			costs.current_b_operations = calculate_correct_position(temp->value, stacks->stack_b, stacks->stack_b_len, 'b');
-		if (!costs.current_a_operations || !costs.current_b_operations)
-			error_exit(stacks, &costs);
-		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
-		if (costs.first_run || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
-			save_best_operations(&costs);
-		temp = temp->next;
-		costs.current_a_pos++;
-		free_operation_memory(&costs);
+			c.cur_b_ops = count_correct_pos(tmp->val, s->b, s->b_len, 'b');
+		if (!c.cur_a_ops || !c.cur_b_ops)
+			error_exit(s, &c);
+		c.cur_tot_ops = count_op_sum(c.cur_a_ops, c.cur_b_ops);
+		if (c.first_run || c.cur_tot_ops[OP_SUM] < c.best_ops[OP_SUM])
+			save_best_ops(&c);
+		tmp = tmp->next;
+		c.cur_a_pos++;
+		free_operation_memory(&c);
 	}
-	run_best_operations(stacks, costs.best_operations, 'b');
+	run_best_ops(s, c.best_ops, 'b');
 }
 
-
-void	find_best_operation_to_a(t_stacks *stacks)
+void	find_best_operation_to_a(t_stacks *s)
 {
-	t_costs	costs;
-	t_node	*temp;
+	t_costs	c;
+	t_node	*tmp;
 
-	costs.first_run = true;
-	costs.current_b_pos = 0;
-	temp = stacks->stack_b;
-	while (temp)
+	c.first_run = true;
+	c.cur_b_pos = 0;
+	tmp = s->b;
+	while (tmp)
 	{
-		costs.current_b_operations = calculate_value_to_top(stacks->stack_b, temp->value, stacks->stack_b_len, &costs.current_b_pos);
-		if (temp->value < stacks->stack_a_min || temp->value > stacks->stack_a_max)
-			costs.current_a_operations = calculate_value_to_top(stacks->stack_a, stacks->stack_a_min, stacks->stack_a_len, NULL);
+		c.cur_b_ops = count_val_to_top(s->b, tmp->val, s->b_len, &c.cur_b_pos);
+		if (tmp->val < s->a_min || tmp->val > s->a_max)
+			c.cur_a_ops = count_val_to_top(s->a, s->a_min, s->a_len, NULL);
 		else
-			costs.current_a_operations = calculate_correct_position(temp->value, stacks->stack_a, stacks->stack_a_len, 'a');
-		if (!costs.current_a_operations || !costs.current_b_operations)
-			error_exit(stacks, &costs);
-		costs.current_total_operations = calculate_operation_sum(costs.current_a_operations, costs.current_b_operations);
-		if (costs.first_run || costs.current_total_operations[OPERATION_SUM] < costs.best_operations[OPERATION_SUM])
-			save_best_operations(&costs);
-		temp = temp->next;
-		costs.current_b_pos++;
-		free_operation_memory(&costs);
+			c.cur_a_ops = count_correct_pos(tmp->val, s->a, s->a_len, 'a');
+		if (!c.cur_a_ops || !c.cur_b_ops)
+			error_exit(s, &c);
+		c.cur_tot_ops = count_op_sum(c.cur_a_ops, c.cur_b_ops);
+		if (c.first_run || c.cur_tot_ops[OP_SUM] < c.best_ops[OP_SUM])
+			save_best_ops(&c);
+		tmp = tmp->next;
+		c.cur_b_pos++;
+		free_operation_memory(&c);
 	}
-	run_best_operations(stacks, costs.best_operations, 'a');
+	run_best_ops(s, c.best_ops, 'a');
 }
 
-void	run_best_operations(t_stacks *stacks, int best_operations[], char stack)
+void	run_best_ops(t_stacks *stacks, int best_ops[], char stack)
 {
-	while (best_operations[COMMON_OPERATION_TIMES]--)
+	while (best_ops[SAME_OP_TIMES]--)
 	{
-		if (best_operations[COMMON_OPERATION] == ROTATE)
+		if (best_ops[SAME_OP] == ROTATE)
 			run_operation_and_update_stacks(stacks, RR);
-		else if (best_operations[COMMON_OPERATION] == REVERSE_ROTATE)
+		else if (best_ops[SAME_OP] == REVERSE_ROTATE)
 			run_operation_and_update_stacks(stacks, RRR);
 	}
-	while (best_operations[A_OPERATION_TIMES]--)
+	while (best_ops[A_OP_TIMES]--)
 	{
-		if (best_operations[A_OPERATION] == ROTATE)
+		if (best_ops[A_OP] == ROTATE)
 			run_operation_and_update_stacks(stacks, RA);
 		else
 			run_operation_and_update_stacks(stacks, RRA);
 	}
-	while (best_operations[B_OPERATION_TIMES]--)
+	while (best_ops[B_OP_TIMES]--)
 	{
-		if (best_operations[B_OPERATION] == ROTATE)
+		if (best_ops[B_OP] == ROTATE)
 			run_operation_and_update_stacks(stacks, RB);
 		else
 			run_operation_and_update_stacks(stacks, RRB);
@@ -127,42 +126,42 @@ void	run_best_operations(t_stacks *stacks, int best_operations[], char stack)
 		run_operation_and_update_stacks(stacks, PA);
 }
 
-void	save_best_operations(t_costs *costs)
+void	save_best_ops(t_costs *costs)
 {
-	costs->best_operations[OPERATION_SUM] = costs->current_total_operations[OPERATION_SUM];
-	costs->best_operations[COMMON_OPERATION] = costs->current_total_operations[COMMON_OPERATION];
-	costs->best_operations[COMMON_OPERATION_TIMES] = costs->current_total_operations[COMMON_OPERATION_TIMES];
-	costs->best_operations[A_OPERATION] = costs->current_total_operations[A_OPERATION];
-	costs->best_operations[A_OPERATION_TIMES] = costs->current_total_operations[A_OPERATION_TIMES];
-	costs->best_operations[B_OPERATION] = costs->current_total_operations[B_OPERATION];
-	costs->best_operations[B_OPERATION_TIMES] = costs->current_total_operations[B_OPERATION_TIMES];
+	costs->best_ops[OP_SUM] = costs->cur_tot_ops[OP_SUM];
+	costs->best_ops[SAME_OP] = costs->cur_tot_ops[SAME_OP];
+	costs->best_ops[SAME_OP_TIMES] = costs->cur_tot_ops[SAME_OP_TIMES];
+	costs->best_ops[A_OP] = costs->cur_tot_ops[A_OP];
+	costs->best_ops[A_OP_TIMES] = costs->cur_tot_ops[A_OP_TIMES];
+	costs->best_ops[B_OP] = costs->cur_tot_ops[B_OP];
+	costs->best_ops[B_OP_TIMES] = costs->cur_tot_ops[B_OP_TIMES];
 	costs->first_run = false;
 }
 
-int	*calculate_value_to_top(t_node *stack, int value, int stack_len, int *pos)
+int	*count_val_to_top(t_node *stack, int val, int stack_len, int *pos)
 {
 	int	*operations;
-	int	position;
+	int	cur_pos;
 
 	operations = (int *)malloc(sizeof(int) * 2);
 	if (!operations)
 		return (NULL);
 	if (!pos)
-		position = find_value_pos(stack, value);
+		cur_pos = find_val_pos(stack, val);
 	else
-		position = *pos;
-	store_operations_to_array(operations, position, stack_len);
+		cur_pos = *pos;
+	store_operations_to_array(operations, cur_pos, stack_len);
 	return (operations);
 }
 
-int	find_value_pos(t_node *stack, int value)
+int	find_val_pos(t_node *stack, int val)
 {
 	int	pos;
 
 	pos = 0;
 	while (stack)
 	{
-		if (stack->value == value)
+		if (stack->val == val)
 			return (pos);
 		pos++;
 		stack = stack->next;
@@ -172,132 +171,132 @@ int	find_value_pos(t_node *stack, int value)
 
 void	sort_max_three_in_a_stack(t_stacks *stacks)
 {
-	if (!stacks->stack_a || !stacks->stack_a->next)
+	if (!stacks->a || !stacks->a->next)
 		return ;
-	if (is_stack_sorted(stacks->stack_a))
+	if (is_stack_sorted(stacks->a))
 		return ;
-	if (!stacks->stack_a->next->next)
+	if (!stacks->a->next->next)
 		run_operation_and_update_stacks(stacks, SA);
-	else if (stacks->stack_a->value > stacks->stack_a->next->value
-		&& stacks->stack_a->value > stacks->stack_a->next->next->value)
+	else if (stacks->a->val > stacks->a->next->val
+		&& stacks->a->val > stacks->a->next->next->val)
 		run_operation_and_update_stacks(stacks, RA);
-	else if (stacks->stack_a->value > stacks->stack_a->next->next->value)
+	else if (stacks->a->val > stacks->a->next->next->val)
 		run_operation_and_update_stacks(stacks, RRA);
-	else if (stacks->stack_a->value > stacks->stack_a->next->value)
+	else if (stacks->a->val > stacks->a->next->val)
 		run_operation_and_update_stacks(stacks, SA);
 	else
 		run_operation_and_update_stacks(stacks, RRA);
 	return (sort_max_three_in_a_stack(stacks));
 }
 
-int	*calculate_correct_position(int value_to_add, t_node *stack_to_append, int stack_len, char stack)
+int	*count_correct_pos(int val, t_node *stack, int len, char op_stack)
 {
 	int	*operations;
-	int	correct_position;
+	int	correct_pos;
 
 	operations = (int *)malloc(sizeof(int) * 2);
 	if (!operations)
 		return (NULL);
-	if (stack == 'b')
-		correct_position = find_correct_value_pos_in_b(stack_to_append, value_to_add);
+	if (op_stack == 'b')
+		correct_pos = find_correct_val_pos_in_b(stack, val);
 	else
-		correct_position = find_correct_value_pos_in_a(stack_to_append, value_to_add);
-	store_operations_to_array(operations, correct_position, stack_len);
+		correct_pos = find_correct_val_pos_in_a(stack, val);
+	store_operations_to_array(operations, correct_pos, len);
 	return (operations);
 }
 
-int	*store_operations_to_array(int operations[], int correct_position, int stack_len)
+int	*store_operations_to_array(int operations[], int correct_pos, int len)
 {
-	if (correct_position == 0)
+	if (correct_pos == 0)
 	{
-		operations[OPERATION] = NOTHING;
-		operations[TIMES_TO_RUN] = 0;
+		operations[OP] = NOTHING;
+		operations[OP_TIMES] = 0;
 	}
-	else if (correct_position <= stack_len / 2)
+	else if (correct_pos <= len / 2)
 	{
-		operations[OPERATION] = ROTATE;
-		operations[TIMES_TO_RUN] = correct_position;
+		operations[OP] = ROTATE;
+		operations[OP_TIMES] = correct_pos;
 	}
 	else
 	{
-		operations[OPERATION] = REVERSE_ROTATE;
-		operations[TIMES_TO_RUN] = stack_len - correct_position;
+		operations[OP] = REVERSE_ROTATE;
+		operations[OP_TIMES] = len - correct_pos;
 	}
 	return (operations);
 }
 
-int	find_correct_value_pos_in_b(t_node *stack, int value_to_add)
+int	find_correct_val_pos_in_b(t_node *stack, int val_to_add)
 {
-	int	position;
-	int	current_position;
+	int	pos;
+	int	cur_pos;
 	int	biggest_smaller;
 
-	current_position = 0;
+	cur_pos = 0;
 	biggest_smaller = INT_MIN;
 	while (stack)
 	{
-		if (value_to_add > stack->value)
+		if (val_to_add > stack->val)
 		{
-			if (stack->value > biggest_smaller)
+			if (stack->val > biggest_smaller)
 			{
-				biggest_smaller = stack->value;
-				position = current_position;
+				biggest_smaller = stack->val;
+				pos = cur_pos;
 			}
 		}
-		current_position++;
+		cur_pos++;
 		stack = stack->next;
 	}
-	return (position);
+	return (pos);
 }
 
-int	find_correct_value_pos_in_a(t_node *stack, int value_to_add)
+int	find_correct_val_pos_in_a(t_node *stack, int val_to_add)
 {
-	int	position;
-	int	current_position;
+	int	pos;
+	int	cur_pos;
 	int	smallest_bigger;
 
-	current_position = 0;
+	cur_pos = 0;
 	smallest_bigger = INT_MAX;
 	while (stack)
 	{
-		if (value_to_add < stack->value)
+		if (val_to_add < stack->val)
 		{
-			if (stack->value < smallest_bigger)
+			if (stack->val < smallest_bigger)
 			{
-				smallest_bigger = stack->value;
-				position = current_position;
+				smallest_bigger = stack->val;
+				pos = cur_pos;
 			}
 		}
-		current_position++;
+		cur_pos++;
 		stack = stack->next;
 	}
-	return (position);
+	return (pos);
 }
 
-int *calculate_operation_sum(int a_operations[], int b_operations[])
+int	*count_op_sum(int a_ops[], int b_ops[])
 {
-	static int	operation_sum[7];
-	
-	if (a_operations[OPERATION] == b_operations[OPERATION])
+	static int	op_sum[7];
+
+	if (a_ops[OP] == b_ops[OP])
 	{
-		if (a_operations[TIMES_TO_RUN] < b_operations[TIMES_TO_RUN])
-			operation_sum[COMMON_OPERATION_TIMES] = a_operations[TIMES_TO_RUN];
+		if (a_ops[OP_TIMES] < b_ops[OP_TIMES])
+			op_sum[SAME_OP_TIMES] = a_ops[OP_TIMES];
 		else
-			operation_sum[COMMON_OPERATION_TIMES]= b_operations[TIMES_TO_RUN];
-		operation_sum[COMMON_OPERATION] = a_operations[OPERATION];
+			op_sum[SAME_OP_TIMES] = b_ops[OP_TIMES];
+		op_sum[SAME_OP] = a_ops[OP];
 	}
 	else
 	{
-		operation_sum[COMMON_OPERATION] = NOTHING;
-		operation_sum[COMMON_OPERATION_TIMES] = 0;
+		op_sum[SAME_OP] = NOTHING;
+		op_sum[SAME_OP_TIMES] = 0;
 	}
-	a_operations[TIMES_TO_RUN] -= operation_sum[COMMON_OPERATION_TIMES];
-	b_operations[TIMES_TO_RUN] -= operation_sum[COMMON_OPERATION_TIMES];
-	operation_sum[A_OPERATION] = a_operations[OPERATION];
-	operation_sum[A_OPERATION_TIMES] = a_operations[TIMES_TO_RUN];
-	operation_sum[B_OPERATION] = b_operations[OPERATION];
-	operation_sum[B_OPERATION_TIMES] = b_operations[TIMES_TO_RUN];
-	operation_sum[COMMON_OPERATION_TIMES] = operation_sum[COMMON_OPERATION_TIMES];
-	operation_sum[OPERATION_SUM] = operation_sum[COMMON_OPERATION_TIMES] + a_operations[TIMES_TO_RUN] + b_operations[TIMES_TO_RUN];
-	return (operation_sum);
+	a_ops[OP_TIMES] -= op_sum[SAME_OP_TIMES];
+	b_ops[OP_TIMES] -= op_sum[SAME_OP_TIMES];
+	op_sum[A_OP] = a_ops[OP];
+	op_sum[A_OP_TIMES] = a_ops[OP_TIMES];
+	op_sum[B_OP] = b_ops[OP];
+	op_sum[B_OP_TIMES] = b_ops[OP_TIMES];
+	op_sum[SAME_OP_TIMES] = op_sum[SAME_OP_TIMES];
+	op_sum[OP_SUM] = op_sum[SAME_OP_TIMES] + a_ops[OP_TIMES] + b_ops[OP_TIMES];
+	return (op_sum);
 }

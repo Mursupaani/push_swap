@@ -48,14 +48,14 @@ static t_stacks	*initialize_stacks(char **args, bool dynarg)
 	stacks = (t_stacks *)malloc(sizeof(t_stacks));
 	if (!stacks)
 		error_exit(NULL, NULL);
-	stacks->stack_a = NULL;
-	stacks->stack_a_len = 0;
-	stacks->stack_a_max = INT_MIN;
-	stacks->stack_a_min = INT_MAX;
-	stacks->stack_b = NULL;
-	stacks->stack_b_len = 0;
-	stacks->stack_b_max = INT_MIN;
-	stacks->stack_b_min = INT_MAX;
+	stacks->a = NULL;
+	stacks->a_len = 0;
+	stacks->a_max = INT_MIN;
+	stacks->a_min = INT_MAX;
+	stacks->b = NULL;
+	stacks->b_len = 0;
+	stacks->b_max = INT_MIN;
+	stacks->b_min = INT_MAX;
 	stacks->args = args;
 	stacks->dynarg = dynarg;
 	return (stacks);

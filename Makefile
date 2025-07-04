@@ -17,7 +17,6 @@ SRCS 	= main.c \
 		  push_swap.c \
 		  linked_list.c \
 		  linked_list_2.c \
-		  printing.c \
 		  push_and_swap.c \
 		  rotate.c \
 		  memory_and_error.c \

@@ -28,15 +28,15 @@ void	free_memory(t_stacks *stacks, t_costs *costs)
 
 void	free_operation_memory(t_costs *costs)
 {
-	if (costs && costs->current_a_operations)
+	if (costs && costs->cur_a_ops)
 	{
-		free(costs->current_a_operations);
-		costs->current_a_operations = NULL;
+		free(costs->cur_a_ops);
+		costs->cur_a_ops = NULL;
 	}
-	if (costs && costs->current_b_operations)
+	if (costs && costs->cur_b_ops)
 	{
-		free(costs->current_b_operations);
-		costs->current_b_operations = NULL;
+		free(costs->cur_b_ops);
+		costs->cur_b_ops = NULL;
 	}
 }
 
@@ -44,24 +44,24 @@ void	free_stacks_memory(t_stacks *stacks)
 {
 	t_node	*temp;
 
-	while (stacks->stack_a)
+	while (stacks->a)
 	{
-		temp = stacks->stack_a->next;
-		free(stacks->stack_a);
-		stacks->stack_a = NULL;
-		stacks->stack_a = temp;
+		temp = stacks->a->next;
+		free(stacks->a);
+		stacks->a = NULL;
+		stacks->a = temp;
 	}
-	while (stacks->stack_b)
+	while (stacks->b)
 	{
-		temp = stacks->stack_b->next;
-		free(stacks->stack_b);
-		stacks->stack_b = NULL;
-		stacks->stack_b = temp;
+		temp = stacks->b->next;
+		free(stacks->b);
+		stacks->b = NULL;
+		stacks->b = temp;
 	}
 	free(stacks);
 }
 
-void free_dynamic_args(t_stacks *stacks)
+void	free_dynamic_args(t_stacks *stacks)
 {
 	int		i;
 
