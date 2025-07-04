@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
 
 bool	pre_parse_input_args(char **args)
 {
@@ -32,7 +33,7 @@ bool	arg_only_digits(char *arg)
 	{
 		if (!(ft_isdigit(arg[i]) || arg[0] == '-' || arg[0] == '+'))
 			return (false);
-		arg++;
+		i++;
 	}
 	return (true);
 }
@@ -96,7 +97,7 @@ int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 		if (*nptr == '-')
 			sign *= -1;
 		nptr++;
-		if (ft_isdigit(*nptr))
+		if (!ft_isdigit(*nptr))
 			error_exit(stacks, NULL);
 	}
 	while (*nptr >= '0' && *nptr <= '9')
