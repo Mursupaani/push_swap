@@ -21,22 +21,22 @@ void	error_exit(t_stacks *stacks, t_costs *costs)
 
 void	free_memory(t_stacks *stacks, t_costs *costs)
 {
-	free_dynamic_args(stacks);
+	free_dynamic_args(stacks->args, stacks->dynarg);
 	free_operation_memory(costs);
 	free_stacks_memory(stacks);
 }
 
 void	free_operation_memory(t_costs *costs)
 {
-	if (costs && costs->current_a_operations)
+	if (costs && costs->cur_a_ops)
 	{
-		free(costs->current_a_operations);
-		costs->current_a_operations = NULL;
+		free(costs->cur_a_ops);
+		costs->cur_a_ops = NULL;
 	}
-	if (costs && costs->current_b_operations)
+	if (costs && costs->cur_b_ops)
 	{
-		free(costs->current_b_operations);
-		costs->current_b_operations = NULL;
+		free(costs->cur_b_ops);
+		costs->cur_b_ops = NULL;
 	}
 }
 
@@ -44,33 +44,33 @@ void	free_stacks_memory(t_stacks *stacks)
 {
 	t_node	*temp;
 
-	while (stacks->stack_a)
+	while (stacks->a)
 	{
-		temp = stacks->stack_a->next;
-		free(stacks->stack_a);
-		stacks->stack_a = NULL;
-		stacks->stack_a = temp;
+		temp = stacks->a->next;
+		free(stacks->a);
+		stacks->a = NULL;
+		stacks->a = temp;
 	}
-	while (stacks->stack_b)
+	while (stacks->b)
 	{
-		temp = stacks->stack_b->next;
-		free(stacks->stack_b);
-		stacks->stack_b = NULL;
-		stacks->stack_b = temp;
+		temp = stacks->b->next;
+		free(stacks->b);
+		stacks->b = NULL;
+		stacks->b = temp;
 	}
 	free(stacks);
 }
 
-void free_dynamic_args(t_stacks *stacks)
+void	free_dynamic_args(char **args, bool dynarg)
 {
 	int		i;
 
-	if (stacks->dynarg && stacks->args)
+	if (dynarg && args)
 	{
 		i = 0;
-		while (stacks->args[i])
-			free(stacks->args[i++]);
-		free(stacks->args);
-		stacks->args = NULL;
+		while (args[i])
+			free(args[i++]);
+		free(args);
+		args = NULL;
 	}
 }

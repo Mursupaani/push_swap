@@ -6,7 +6,7 @@
 #    By: anpollan <anpollan@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/11 13:06:22 by anpollan          #+#    #+#              #
-#    Updated: 2025/06/11 13:21:27 by anpollan         ###   ########.fr        #
+#    Updated: 2025/07/04 11:29:42 by anpollan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,19 +17,18 @@ SRCS 	= main.c \
 		  push_swap.c \
 		  linked_list.c \
 		  linked_list_2.c \
-		  printing.c \
 		  push_and_swap.c \
 		  rotate.c \
 		  memory_and_error.c \
 		  sorting.c \
-		  update_stack_details.c
+		  update_stack_details.c \
+		  count_operations.c \
+		  save_operations.c
 OBJS	= $(SRCS:%.c=%.o)
 HEADER	= push_swap.h
 C_FLAGS	= -Wall -Wextra -Werror -g
 
 all: $(NAME)
-
-bin: all clean
 
 $(NAME): $(OBJS) $(LIBFT)
 	cc $(C_FLAGS) $(OBJS) $(LIBFT) -o $(NAME)

@@ -18,9 +18,9 @@ char	*swap_top_two_elements(t_stacks *stacks, int operation)
 	t_node	**stack;
 
 	if (operation == SA)
-		stack = &stacks->stack_a;
+		stack = &stacks->a;
 	else
-		stack = &stacks->stack_b;
+		stack = &stacks->b;
 	if (!*stack || !(*stack)->next)
 		return (NULL);
 	temp = *stack;
@@ -47,13 +47,13 @@ char	*push_top_to_other_stack(t_stacks *stacks, int op)
 
 	if (op == PA)
 	{
-		from_stack = &stacks->stack_b;
-		to_stack = &stacks->stack_a;
+		from_stack = &stacks->b;
+		to_stack = &stacks->a;
 	}
 	else
 	{
-		from_stack = &stacks->stack_a;
-		to_stack = &stacks->stack_b;
+		from_stack = &stacks->a;
+		to_stack = &stacks->b;
 	}
 	if (!*from_stack || !from_stack || !to_stack)
 		return (NULL);

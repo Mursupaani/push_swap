@@ -12,14 +12,14 @@
 
 #include "push_swap.h"
 
-t_node	*create_new_node(int value)
+t_node	*create_new_node(int val)
 {
 	t_node	*new_node;
 
 	new_node = (t_node *)malloc(sizeof(t_node));
 	if (!new_node)
 		return (NULL);
-	new_node->value = value;
+	new_node->val = val;
 	new_node->next = NULL;
 	new_node->previous = NULL;
 	return (new_node);

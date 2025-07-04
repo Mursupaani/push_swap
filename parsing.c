@@ -41,33 +41,31 @@ bool	parse_input_args(t_stacks *stacks)
 {
 	t_node	*temp;
 	int		i;
-	int		current_value;
+	int		current_val;
 
 	i = 0;
-	if (!stacks || !stacks->args || !&(stacks->stack_a))
+	if (!stacks || !stacks->args || !&(stacks->a))
 		return (false);
 	while (stacks->args[i])
 	{
-		current_value = ft_atoi_error_exit(stacks->args[i], stacks);
-		if (stacks->stack_a && !value_is_unique(current_value, stacks->stack_a))
+		current_val = ft_atoi_error_exit(stacks->args[i++], stacks);
+		if (stacks->a && !val_is_unique(current_val, stacks->a))
 			return (false);
-		temp = create_new_node(current_value);
+		temp = create_new_node(current_val);
 		if (!temp)
 			return (false);
-		if (!add_node_back(&(stacks->stack_a), temp))
+		if (!add_node_back(&(stacks->a), temp))
 			return (false);
-		if (current_value > stacks->stack_a_max)
-			stacks->stack_a_max = current_value;
-		if (current_value < stacks->stack_a_min)
-			stacks->stack_a_min = current_value;
-		i++;
-		stacks->stack_a_len++;
+		if (current_val > stacks->a_max)
+			stacks->a_max = current_val;
+		if (current_val < stacks->a_min)
+			stacks->a_min = current_val;
+		stacks->a_len++;
 	}
-	free_dynamic_args(stacks);
 	return (true);
 }
 
-bool	value_is_unique(int value, t_node *stack)
+bool	val_is_unique(int val, t_node *stack)
 {
 	t_node	*temp;
 
@@ -76,7 +74,7 @@ bool	value_is_unique(int value, t_node *stack)
 	temp = stack;
 	while (temp)
 	{
-		if (temp->value == value)
+		if (temp->val == val)
 			return (false);
 		temp = temp->next;
 	}
@@ -106,7 +104,8 @@ int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 		result += *nptr - '0';
 		nptr++;
 	}
-	if (result > INT_MAX || result < INT_MIN)
+	result *= sign;
+	if (result > INT_MAX || result < INT_MIN || *nptr != '\0')
 		error_exit(stacks, NULL);
-	return (sign * result);
+	return (result);
 }

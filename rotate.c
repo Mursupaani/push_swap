@@ -19,9 +19,9 @@ char	*rotate_stack(t_stacks *stacks, int op)
 	t_node	*temp;
 
 	if (op == RA)
-		stack = &stacks->stack_a;
+		stack = &stacks->a;
 	else
-		stack =&stacks->stack_b;
+		stack = &stacks->b;
 	if (!stacks || !*stack || !(*stack)->next)
 		return (NULL);
 	last = find_last_node(*stack);
@@ -33,7 +33,7 @@ char	*rotate_stack(t_stacks *stacks, int op)
 	last->next = temp;
 	temp->next = NULL;
 	temp->previous = last;
-	if	(op == RA)
+	if (op == RA)
 		return ("ra");
 	else
 		return ("rb");
@@ -45,9 +45,9 @@ char	*rotate_stack_reverse(t_stacks *stacks, int operation)
 	t_node	**stack;
 
 	if (operation == RRA)
-		stack = &stacks->stack_a;
+		stack = &stacks->a;
 	else
-		stack = &stacks->stack_b;
+		stack = &stacks->b;
 	if (!stack || !*stack || !(*stack)->next)
 		return (NULL);
 	last = find_last_node(*stack);
@@ -66,8 +66,8 @@ char	*rotate_stack_reverse(t_stacks *stacks, int operation)
 
 char	*rotate_both_stacks(t_stacks *stacks)
 {
-	if (!stacks->stack_a || !stacks->stack_b
-		|| !stacks->stack_a->next || !stacks->stack_b->next)
+	if (!stacks->a || !stacks->b
+		|| !stacks->a->next || !stacks->b->next)
 		return (NULL);
 	rotate_stack(stacks, RA);
 	rotate_stack(stacks, RB);
@@ -76,8 +76,8 @@ char	*rotate_both_stacks(t_stacks *stacks)
 
 char	*rotate_both_stacks_reverse(t_stacks *stacks)
 {
-	if (!stacks->stack_a || !stacks->stack_b
-		|| !stacks->stack_a->next || !stacks->stack_b->next)
+	if (!stacks->a || !stacks->b
+		|| !stacks->a->next || !stacks->b->next)
 		return (NULL);
 	rotate_stack_reverse(stacks, RRA);
 	rotate_stack_reverse(stacks, RRB);

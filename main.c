@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 static t_stacks	*initialize_stacks(char **args, bool dynarg);
 
@@ -20,13 +21,15 @@ int	main(int argc, char *argv[])
 	bool		dynarg;
 	char		**args;
 
-	if (argc == 1 || !argv || argv[1][0] == '\0')
-	{
-		ft_putstr_fd("Error\n", 2);
+	if (argc == 1)
 		return (1);
-	}
 	else if (argc == 2)
 	{
+		if (!argv || argv[1][0] == '\0')
+		{
+			ft_putstr_fd("Error\n", 2);
+			return (1);
+		}
 		args = ft_split(argv[1], ' ');
 		dynarg = true;
 	}
@@ -47,15 +50,19 @@ static t_stacks	*initialize_stacks(char **args, bool dynarg)
 
 	stacks = (t_stacks *)malloc(sizeof(t_stacks));
 	if (!stacks)
-		error_exit(NULL, NULL);
-	stacks->stack_a = NULL;
-	stacks->stack_a_len = 0;
-	stacks->stack_a_max = INT_MIN;
-	stacks->stack_a_min = INT_MAX;
-	stacks->stack_b = NULL;
-	stacks->stack_b_len = 0;
-	stacks->stack_b_max = INT_MIN;
-	stacks->stack_b_min = INT_MAX;
+	{
+		free_dynamic_args(args, dynarg);
+		ft_putstr_fd("Error\n", 2);
+		exit(EXIT_FAILURE);
+	}
+	stacks->a = NULL;
+	stacks->a_len = 0;
+	stacks->a_max = INT_MIN;
+	stacks->a_min = INT_MAX;
+	stacks->b = NULL;
+	stacks->b_len = 0;
+	stacks->b_max = INT_MIN;
+	stacks->b_min = INT_MAX;
 	stacks->args = args;
 	stacks->dynarg = dynarg;
 	return (stacks);
