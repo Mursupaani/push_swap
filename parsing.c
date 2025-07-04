@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <limits.h>
 
 bool	pre_parse_input_args(char **args)
 {
@@ -26,7 +25,7 @@ bool	pre_parse_input_args(char **args)
 
 bool	arg_only_digits(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i])
@@ -63,7 +62,6 @@ bool	parse_input_args(t_stacks *stacks)
 			stacks->a_min = current_val;
 		stacks->a_len++;
 	}
-	free_dynamic_args(stacks);
 	return (true);
 }
 
@@ -86,7 +84,7 @@ bool	val_is_unique(int val, t_node *stack)
 int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 {
 	int			sign;
-	long long int	result;
+	long int	result;
 
 	sign = 1;
 	result = 0;

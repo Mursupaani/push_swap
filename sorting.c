@@ -110,5 +110,4 @@ void	rotate_a_to_sort(t_stacks *stacks)
 		while (times_to_run--)
 			run_operation_and_update_stacks(stacks, RRA);
 	}
-
 }

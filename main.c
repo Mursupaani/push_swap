@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
 static t_stacks	*initialize_stacks(char **args, bool dynarg);
 
@@ -20,13 +21,15 @@ int	main(int argc, char *argv[])
 	bool		dynarg;
 	char		**args;
 
-	if (argc == 1 || !argv || argv[1][0] == '\0')
-	{
-		ft_putstr_fd("Error\n", 2);
+	if (argc == 1)
 		return (1);
-	}
 	else if (argc == 2)
 	{
+		if (!argv || argv[1][0] == '\0')
+		{
+			ft_putstr_fd("Error\n", 2);
+			return (1);
+		}
 		args = ft_split(argv[1], ' ');
 		dynarg = true;
 	}
@@ -47,7 +50,11 @@ static t_stacks	*initialize_stacks(char **args, bool dynarg)
 
 	stacks = (t_stacks *)malloc(sizeof(t_stacks));
 	if (!stacks)
-		error_exit(NULL, NULL);
+	{
+		free_dynamic_args(args, dynarg);
+		ft_putstr_fd("Error\n", 2);
+		exit(EXIT_FAILURE);
+	}
 	stacks->a = NULL;
 	stacks->a_len = 0;
 	stacks->a_max = INT_MIN;

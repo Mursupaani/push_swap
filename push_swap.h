@@ -108,7 +108,7 @@ bool	val_is_unique(int val, t_node *stack);
 void	free_memory(t_stacks *stacks, t_costs *costs);
 void	free_stacks_memory(t_stacks *stacks);
 void	free_operation_memory(t_costs *costs);
-void	free_dynamic_args(t_stacks *stacks);
+void	free_dynamic_args(char **args, bool dynarg);
 void	error_exit(t_stacks *stacks, t_costs *costs);
 void	run_operation_and_update_stacks(t_stacks *stacks, int operation);
 void	sort_stack(t_stacks *stacks);
