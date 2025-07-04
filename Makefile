@@ -26,7 +26,7 @@ SRCS 	= main.c \
 		  save_operations.c
 OBJS	= $(SRCS:%.c=%.o)
 HEADER	= push_swap.h
-C_FLAGS	= -Wall -Wextra -Werror -g
+C_FLAGS	= -Wall -Wextra -Werror
 
 all: $(NAME)
 
