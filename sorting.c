@@ -10,7 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/ft_printf.h"
 #include "push_swap.h"
+
+
+void	print_stacks(t_stacks *stacks)
+{
+	t_node *temp;
+
+	ft_printf("Stack a:\t");
+	temp = stacks->a;
+	while (temp)
+	{
+		ft_printf("%d ", temp->val);
+		temp = temp->next;
+	}
+	ft_printf("\n");
+	ft_printf("Stack b:\t");
+	temp = stacks->b;
+	while (temp)
+	{
+		ft_printf("%d ", temp->val);
+		temp = temp->next;
+	}
+	ft_printf("\n");
+}
 
 void	sort_stack(t_stacks *stacks)
 {
@@ -70,6 +94,7 @@ void	run_best_ops(t_stacks *stacks, int best_ops[], char stack)
 		run_operation_and_update_stacks(stacks, PB);
 	else if (stack == 'a')
 		run_operation_and_update_stacks(stacks, PA);
+	print_stacks(stacks);
 }
 
 void	sort_max_three_in_a_stack(t_stacks *stacks)

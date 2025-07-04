@@ -55,12 +55,127 @@ int	*count_op_sum(int a_ops[], int b_ops[])
 	return (op_sum);
 }
 
-int	*count_best_combination(t_stacks *stacks, int a_ops[], int b_ops[])
+int	*count_best_combination(int a_ops[], int b_ops[])
 {
-	int	curr_op_sum[7];
-	int	best_op_sum[7];
+	static int	op_sum[7];
+	int	current_min;
+	int a_rotate_times;
+	int a_rev_rotate_times;
+	int	a_fix_w_rots;
+	int	a_fix_w_rev_rots;
+	int b_rotate_times;
+	int b_rev_rotate_times;
+	int	b_fix_w_rots;
+	int	b_fix_w_rev_rots;
+	int common_rotate_times;
+	int common_rotate_times_worse;
+	int common_rev_rotate_times;
+	int common_rev_rotate_times_worse;
 
-	curr_op_sum]
+	if (a_ops[ROT_TIMES] <= b_ops[ROT_TIMES])
+	{
+		common_rotate_times = a_ops[ROT_TIMES];
+		common_rotate_times_worse = b_ops[ROT_TIMES];
+	}
+	else
+	{
+		common_rotate_times = b_ops[ROT_TIMES];
+		common_rotate_times_worse = a_ops[ROT_TIMES];
+	}
+	a_rotate_times = a_ops[ROT_TIMES] - common_rotate_times;
+	b_rotate_times = b_ops[ROT_TIMES] - common_rotate_times;
+
+	if (a_ops[REVROT_TIMES] <= b_ops[REVROT_TIMES])
+	{
+		common_rev_rotate_times = a_ops[REVROT_TIMES];
+		common_rev_rotate_times_worse = b_ops[REVROT_TIMES];
+	}
+	else
+	{
+		common_rev_rotate_times = b_ops[REVROT_TIMES];
+		common_rev_rotate_times_worse = a_ops[REVROT_TIMES];
+	}
+	a_rev_rotate_times = a_ops[REVROT_TIMES] - common_rev_rotate_times;
+	b_rev_rotate_times = b_ops[REVROT_TIMES] - common_rev_rotate_times;
+
+	int ops1;
+	ops1 = common_rotate_times + a_rotate_times + b_rotate_times;
+
+	int ops2;
+	ops2 = common_rev_rotate_times + a_rev_rotate_times + b_rev_rotate_times;
+
+	int ops3;
+	if (a_ops[ROT_TIMES] == common_rotate_times_worse)
+	{
+		a_fix_w_rev_rots = 0;
+		b_fix_w_rev_rots = common_rotate_times_worse - b_ops[ROT_TIMES];
+	}
+	else
+	{
+		a_fix_w_rev_rots = common_rotate_times_worse - a_ops[ROT_TIMES];
+		b_fix_w_rev_rots = 0;
+	}
+	ops3 = common_rotate_times_worse + a_fix_w_rev_rots + b_fix_w_rev_rots;
+
+	int ops4;
+	if (a_ops[REVROT_TIMES] == common_rev_rotate_times_worse)
+	{
+		a_fix_w_rots = 0;
+		b_fix_w_rots = common_rev_rotate_times_worse - b_ops[REVROT_TIMES];
+	}
+	else
+	{
+		a_fix_w_rots = common_rev_rotate_times_worse - a_ops[REVROT_TIMES];
+		b_fix_w_rots = 0;
+	}
+	ops4 = common_rev_rotate_times_worse + a_fix_w_rots + b_fix_w_rots;
+
+	current_min = 0;
+	if (ops1 <= ops2)
+	{
+		op_sum[A_OP] = ROTATE;
+		op_sum[A_OP_TIMES] = a_rotate_times;
+		op_sum[B_OP] = ROTATE;
+		op_sum[B_OP_TIMES] = b_rotate_times;
+		op_sum[SAME_OP] = ROTATE;
+		op_sum[SAME_OP_TIMES] = common_rotate_times;
+		op_sum[OP_SUM] = ops1;
+		current_min = ops1;
+	}
+	else
+	{
+		op_sum[A_OP] = REVERSE_ROTATE;
+		op_sum[A_OP_TIMES] = a_rev_rotate_times;
+		op_sum[B_OP] = REVERSE_ROTATE;
+		op_sum[B_OP_TIMES] = b_rev_rotate_times;
+		op_sum[SAME_OP] = REVERSE_ROTATE;
+		op_sum[SAME_OP_TIMES] = common_rev_rotate_times;
+		op_sum[OP_SUM] = ops2;
+		current_min = ops2;
+	}
+	if (ops3 < current_min)
+	{
+		op_sum[A_OP] = REVERSE_ROTATE;
+		op_sum[A_OP_TIMES] = a_fix_w_rev_rots;
+		op_sum[B_OP] = REVERSE_ROTATE;
+		op_sum[B_OP_TIMES] = b_fix_w_rev_rots;
+		op_sum[SAME_OP] = ROTATE;
+		op_sum[SAME_OP_TIMES] = common_rotate_times_worse;
+		op_sum[OP_SUM] = ops3;
+		current_min = ops3;
+	}
+	if (ops4 < current_min)
+	{
+		op_sum[A_OP] = ROTATE;
+		op_sum[A_OP_TIMES] = a_fix_w_rots;
+		op_sum[B_OP] = ROTATE;
+		op_sum[B_OP_TIMES] = b_fix_w_rots;
+		op_sum[SAME_OP] = REVERSE_ROTATE;
+		op_sum[SAME_OP_TIMES] = common_rev_rotate_times_worse;
+		op_sum[OP_SUM] = ops4;
+		current_min = ops4;
+	}
+	return (op_sum);
 }
 
 void	save_best_ops(t_costs *costs)

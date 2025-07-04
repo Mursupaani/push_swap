@@ -29,7 +29,7 @@ void	find_best_operation_to_b(t_stacks *s)
 			c.cur_b_ops = count_correct_pos(tmp->val, s->b, s->b_len, 'b');
 		if (!c.cur_a_ops || !c.cur_b_ops)
 			error_exit(s, &c);
-		c.cur_tot_ops = count_op_sum(c.cur_a_ops, c.cur_b_ops);
+		c.cur_tot_ops = count_best_combination(c.cur_a_ops, c.cur_b_ops);
 		if (c.first_run || c.cur_tot_ops[OP_SUM] < c.best_ops[OP_SUM])
 			save_best_ops(&c);
 		tmp = tmp->next;
@@ -56,7 +56,7 @@ void	find_best_operation_to_a(t_stacks *s)
 			c.cur_a_ops = count_correct_pos(tmp->val, s->a, s->a_len, 'a');
 		if (!c.cur_a_ops || !c.cur_b_ops)
 			error_exit(s, &c);
-		c.cur_tot_ops = count_op_sum(c.cur_a_ops, c.cur_b_ops);
+		c.cur_tot_ops = count_best_combination(c.cur_a_ops, c.cur_b_ops);
 		if (c.first_run || c.cur_tot_ops[OP_SUM] < c.best_ops[OP_SUM])
 			save_best_ops(&c);
 		tmp = tmp->next;

@@ -133,5 +133,7 @@ void	save_best_ops(t_costs *costs);
 void	run_best_ops(t_stacks *stacks, int best_ops[], char stack);
 int		*store_operations_to_array(int operations[], int correct_pos, int len);
 void	rotate_a_to_sort(t_stacks *stacks);
+int		*count_best_combination(int a_ops[], int b_ops[]);
+void	print_stacks(t_stacks *stacks);
 
 #endif
