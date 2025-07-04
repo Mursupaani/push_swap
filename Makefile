@@ -30,8 +30,6 @@ C_FLAGS	= -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
-bin: all clean
-
 $(NAME): $(OBJS) $(LIBFT)
 	cc $(C_FLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 

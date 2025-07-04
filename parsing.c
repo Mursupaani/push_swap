@@ -105,7 +105,7 @@ int	ft_atoi_error_exit(const char *nptr, t_stacks *stacks)
 		nptr++;
 	}
 	result *= sign;
-	if (result > INT_MAX || result < INT_MIN)
+	if (result > INT_MAX || result < INT_MIN || *nptr != '\0')
 		error_exit(stacks, NULL);
 	return (result);
 }
