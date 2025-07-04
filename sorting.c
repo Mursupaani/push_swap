@@ -91,3 +91,24 @@ void	sort_max_three_in_a_stack(t_stacks *stacks)
 		run_operation_and_update_stacks(stacks, RRA);
 	return (sort_max_three_in_a_stack(stacks));
 }
+
+void	rotate_a_to_sort(t_stacks *stacks)
+{
+	int	a_min_pos;
+	int	times_to_run;
+
+	a_min_pos = find_val_pos(stacks->a, stacks->a_min);
+	if (a_min_pos <= stacks->a_len / 2)
+	{
+		times_to_run = a_min_pos;
+		while (times_to_run--)
+			run_operation_and_update_stacks(stacks, RA);
+	}
+	else
+	{
+		times_to_run = stacks->a_len - a_min_pos;
+		while (times_to_run--)
+			run_operation_and_update_stacks(stacks, RRA);
+	}
+
+}

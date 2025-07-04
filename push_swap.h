@@ -28,12 +28,12 @@ typedef struct s_stacks
 {
 	t_node	*a;
 	t_node	*b;
-	int		a_len;
-	int		b_len;
 	int		a_min;
 	int		a_max;
+	int		a_len;
 	int		b_min;
 	int		b_max;
+	int		b_len;
 	char	**args;
 	bool	dynarg;
 }	t_stacks;
@@ -85,12 +85,6 @@ enum	e_operations
 	RRR
 }	;
 
-// FIXME: No need for this?
-int		*find_min_and_max_vals(t_node *stack);
-void	print_stack(t_node *stack);
-void	print_stack_reverse(t_node *stack);
-void	print_detailed_stacks(t_stacks *stacks);
-
 void	push_swap(t_stacks *stacks);
 bool	pre_parse_input_args(char **args);
 bool	arg_only_digits(char *arg);
@@ -110,7 +104,6 @@ char	*rotate_both_stacks(t_stacks *stacks);
 char	*rotate_stack_reverse(t_stacks *stacks, int operation);
 char	*rotate_both_stacks_reverse(t_stacks *stacks);
 bool	is_stack_sorted(t_node *stack);
-bool	is_stack_reverse_sorted(t_node *stack);
 bool	val_is_unique(int val, t_node *stack);
 void	free_memory(t_stacks *stacks, t_costs *costs);
 void	free_stacks_memory(t_stacks *stacks);
@@ -121,7 +114,6 @@ void	run_operation_and_update_stacks(t_stacks *stacks, int operation);
 void	sort_stack(t_stacks *stacks);
 void	sort_max_three_in_a_stack(t_stacks *stacks);
 int		choose_operation(t_stacks *stacks, bool stack_a_sorted);
-int		*store_stack_min_and_max(t_node *stack);
 void	find_best_operation_to_a(t_stacks *s);
 void	find_best_operation_to_b(t_stacks *s);
 void	update_stack_details(t_stacks *stacks, int operation);
@@ -133,7 +125,7 @@ int		*count_correct_pos(int val, t_node *stack, int len, char op_stack);
 int		*count_op_sum(int a_ops[], int b_ops[]);
 void	save_best_ops(t_costs *costs);
 void	run_best_ops(t_stacks *stacks, int best_ops[], char stack);
-void	find_best_push_or_rot_a(t_stacks *stacks);
 int		*store_operations_to_array(int operations[], int correct_pos, int len);
+void	rotate_a_to_sort(t_stacks *stacks);
 
 #endif

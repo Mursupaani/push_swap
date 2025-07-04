@@ -37,22 +37,6 @@ bool	is_stack_sorted(t_node *stack)
 	return (true);
 }
 
-bool	is_stack_reverse_sorted(t_node *stack)
-{
-	t_node	*last;
-
-	if (!stack)
-		return (false);
-	last = (stack);
-	while (last->previous)
-	{
-		if (last->val < last->previous->val)
-			return (false);
-		last = last->previous;
-	}
-	return (true);
-}
-
 void	run_operation_and_update_stacks(t_stacks *stacks, int operation)
 {
 	char	*op;
