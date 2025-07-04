@@ -47,12 +47,12 @@ typedef struct s_costs
 	int		best_operations[7];
 	bool	first_run;
 
-	int	move_a_to_top;
-	int	move_b_to_top;
-	int	a_operation;
-	int	b_operation;
-	int	stack_a_max_pos;
-	int	stack_b_max_pos;
+	// int	move_a_to_top;
+	// int	move_b_to_top;
+	// int	a_operation;
+	// int	b_operation;
+	// int	stack_a_max_pos;
+	// int	stack_b_max_pos;
 	int	current_a_pos;
 	int	current_b_pos;
 }	t_costs;
