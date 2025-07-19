@@ -4,7 +4,6 @@ p_test
 checker*
 *.json
 *.o
-libft/
 push_swap_tester/
 Push-Swap-Tester/
 project.sh
