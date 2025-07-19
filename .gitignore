@@ -1,4 +1,5 @@
 /.cache
+libft/libft.a
 push_swap
 p_test
 checker*
